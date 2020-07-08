@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="split left">
+        <!-- <img src="images/halls.png" alt="halls"> -->
+        <form action="#">
+        <h1 class="leftHeader">Sign In</h1>
+        <input class="inputData email" type="email" name="email" placeholder="Email">
+        <input class="inputData password" type="password" name="password" placeholder="Password">
+        <a href="#" class="forgetPass">Forgot Your Password?</a>
+        <a href="#" class="leftBtn">Sign In</a>
+        <p> <span><input type="checkbox"></span>Remember me</p>
+        <a routerLink="/signup" href="#" class="createAccount" onclick="reDirectSgnUp()">Create an account</a>
+        </form>
+    </div>
+    <div class="split right">
+        <h1 class="rightHeader">Welcome !</h1>
+        <div class="About">
+            <p>We are <span>H a l l s</span> and we believe we have to change
+            a thing for the current </p><p>panadmeic covid-19,So we set our website to
+            keep people safe by </p><p>guranteeing the social distance.</p>
+            <p>Enter the image of you to <span>H a l l s </span> and we will distribute it
+            Give it a try ;)</p> 
+        </div>
+        <a href="#" class="button">Try it!</a>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
