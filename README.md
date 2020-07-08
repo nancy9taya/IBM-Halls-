@@ -37,7 +37,7 @@ It's imperative that learning in universities, also the films in cinemas can con
 
 ## Project roadmap
 
-## Getting started]
+## Getting started
 
 ## Running the tests
 
