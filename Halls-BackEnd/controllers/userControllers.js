@@ -12,15 +12,14 @@ const imgPath = './public/profileImage/default.jpg';
 const nodemailer = require("nodemailer");
 const RandHash =require('../models/RandHash');// put randam hash in url in verify mail
 var randomHash = require('random-key');
-var randomBytes= require('crypto');
+var randomBytes = require('crypto');
 var mailOptions;
 const rand =new RandHash;
 const  passport = require('passport');
-const	FacebookStrategy = require('passport-facebook').Strategy;
-var Cloudant = require('@cloudant/cloudant');
-var cloudant = new Cloudant({ url:"https://4cf5dc48-8705-49e2-9672-a6542a0aaea9-bluemix.cloudant.com" , plugins: { iamauth: { iamApiKey: "wvxUMFT5UgL7ZEL_ARKwA-AifCrWVicETFDXAN4AQJ4c" } } });
+var {db_users} = require('../cloudant');
+const { v4: uuidv4 } = require('uuid');
 
-let db = cloudant.use('collage_app');
+
 /**
 * UserController signup valdiation
 *@memberof module:controllers/userControllers
@@ -185,7 +184,7 @@ exports.userSignup =  async function(req, res, next){
   if (error)
    return res.status(400).send({ message: error.details[0].message });
    const user = new User({
-    _id: new mongoose.Types.ObjectId(),
+    _id: uuidv4(),
     name:req.body.name,
     email: req.body.email,
     password: req.body.password,
