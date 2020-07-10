@@ -36,7 +36,7 @@ It's imperative that learning in universities, also the films in cinemas can con
 ## Long description
 
 ## Project roadmap
-
+![roadmap](https://github.com/SalmaFarghaly/Halls/blob/master/roadmap.jpg)
 ## Getting started
 
 ## Running the tests
