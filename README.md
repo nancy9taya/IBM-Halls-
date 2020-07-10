@@ -26,7 +26,7 @@ As a try to cope with the spread of COVID-19 that makes all the places which had
 We try to make a solution to bring life back to these places by applying social distancing as we distribute the people in any hall to have the minimum safe distance 1 meter from each person in any direction. when the life brought back to theses place the more people will cope with the spread of the virus with minimal loss and less mental pressure.
 
 ### The idea
-It's imperative that learning in universities, also the films in cinemas can continue by coping with the COVID-19 situation. providing a set of open-source tools, backed by IBM Cloudfoundary and IBm cloudant, will enable people to go to places whatever they want with safe social distancing.
+It's imperative that learning in universities, also the films in cinemas can continue by coping with the COVID-19 situation. providing a set of open-source tools, backed by IBM Cloud foundary and IBM cloudant, will enable people to go to places whatever they want with safe social distancing.
 
 
 ## Demo video
@@ -44,15 +44,15 @@ It's imperative that learning in universities, also the films in cinemas can con
 ## Live demo
 
 ## Built with
-* IBM cloudant
-* IBM cloudFoundary
+* [IBM cloudant](https://cloud.ibm.com/catalog?search=cloudant#search_results)
+* [IBM cloud Foundary](https://cloud.ibm.com/catalog?search=cloud%20foundry#search_results)
 
 ## Contributing
 
 ## Versioning
 ## Authors
 
-* ### Nancy hassan
+* ### Nancy Hassan
 * ### Salma Farghaly
 ## License
 ## Acknowledgments
