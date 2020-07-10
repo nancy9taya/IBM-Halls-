@@ -1,16 +1,44 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+  <form [formGroup]="rForm" (ngSubmit)="SignUp(rForm.value)">
+    <div class="form-container">
+        <div class="row columns">
+          <img src="../../assets/images/halls.png" alt="halls">
+          <h1>Sign Up Now</h1>
+  
+          <label >User Name
+            <input type="text" value="Enter Your User Name" formControlName="name">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['name'].valid && rForm.controls['name'].touched">
+              {{titleAlert}}
+          </div>
 
-    <div class="sign-up-form">
-        <img src="../../assets/images/halls.png" alt="halls">
-        <h1>Sign Up Now</h1>
-        <form>
-            <input type="email" class="input-box" placeholder="Your email">
-            <input type="password" class="input-box password-box" placeholder="Your password">
-            <input type="password" class="input-box password-box" placeholder="ReType your password">
-            <p> <span><input type="checkbox"></span> agree to the terms of services</p>
-            <button type="button" class="signUp-btn">Sign up</button>
-            <hr>
-                <p class="or">OR</p>
-                <button type="button" class="logIn-btn">Log in with facebook</button>
-                <p>Do you have an account? <a href="#" onclick="reDirecthome()">Sign In</a></p>
-        </form>
+          <label >Email
+            <input type="text" formControlName="email">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">
+              This field is required and it should be in an email pattern
+          </div>
+          <label for="passwordInput">Password
+            <input type="password" formControlName="password">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">
+              {{passAlert}}
+          </div>
+          <label for="ConfPassword">Retype password
+            <input type="password" formControlName="Repassword">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['Repassword'].valid && rForm.controls['Repassword'].touched">
+              {{cnfPassAlert}}
+          </div>
+  
+          <input type="submit" class="button expanded" value="Sign Up" [disabled]="!rForm.valid">
+  
+        </div>
     </div>
+  </form>
+  
+  

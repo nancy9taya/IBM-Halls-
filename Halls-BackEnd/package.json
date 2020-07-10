@@ -46,7 +46,7 @@
     "chai-http": "^1.0.0"
   },
   "scripts": {
-    "app":"nodemon cloudant",
+    "app": "nodemon cloudant",
     "watch": "nodemon server",
     "test": "mocha --timeout 720000",
     "unit-test": "mocha",

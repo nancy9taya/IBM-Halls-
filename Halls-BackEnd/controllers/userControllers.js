@@ -179,8 +179,9 @@ const smtpTransport = nodemailer.createTransport({
 *@param {string}  res.message      the type of error /user created successfully
 *@param {token}   res.token   it returns token if user sigup successfully
  */
-exports.userSignup =   (req, res, next) => {
+exports.userSignup =  async function(req, res, next){
   const { error } = joiValidate(req.body)
+  console.log("SIGN UP ACTION")
   if (error)
    return res.status(400).send({ message: error.details[0].message });
    const user = new User({
@@ -192,14 +193,17 @@ exports.userSignup =   (req, res, next) => {
     gender:req.body.gender,
     type:req.body.type
   });
-  db.insert(user, (err, result) => {
-    if (err) {
-        console.log('Error occurred: ' + err.message, 'create()');
-        return res.status(500).json({message: 'faild'});
-    } else {
-        return res.status(201).json({message: 'User created'});
-    }
-});
+  await user.save();
+  console.log("HEREEEEE")
+  return res.json({message:"OK"}).status(200);
+  // db.insert(user, (err, result) => {
+  //   if (err) {
+  //       console.log('Error occurred: ' + err.message, 'create()');
+  //       return res.status(500).json({message: 'faild'});
+  //   } else {
+  //       return res.status(201).json({message: 'User created'});
+  //   }
+}
    //this object is created for LikedSongLibrary
   /*let userId;
   User.find({ name: req.body.name  })
@@ -281,8 +285,6 @@ exports.userSignup =   (req, res, next) => {
            });
          }
     });      */
-};
-
 /**
 * UserController login 
 *@memberof module:controllers/userControllers

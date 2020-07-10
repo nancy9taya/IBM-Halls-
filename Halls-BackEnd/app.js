@@ -17,6 +17,26 @@
   //mongoose.set('useFindAndModify', false);
 
  // mongoose.Promise = global.Promise;
+ let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+
+ //let db="mongodb://localhost/MaestroApp"
+  /* mongoose
+    .connect(db, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useFindAndModify:false,
+      useUnifiedTopology: true
+    })
+    .then(() => winston.info(`Connected to MongoDB...`))*/
+    //const mongoConnectionSettings = config.read();
+   // const migrated = up(db, client);
+    //migrated.forEach(fileName => console.log('Migrated:', fileName));
+ 
+ 
+  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  catch(error => handleError(error));
+  mongoose.set('useFindAndModify', false);
+
   
   app.use(morgan("dev"));
   app.use(bodyParser.urlencoded({ extended: false }));
