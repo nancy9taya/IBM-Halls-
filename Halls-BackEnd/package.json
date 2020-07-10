@@ -39,6 +39,7 @@
     "request": "^2.88.2",
     "sinon": "^9.0.2",
     "supertest": "^4.0.2",
+    "uuid": "^8.2.0",
     "validator": "^12.2.0"
   },
   "devDependencies": {
@@ -46,7 +47,7 @@
     "chai-http": "^1.0.0"
   },
   "scripts": {
-    "app":"nodemon cloudant",
+    "app": "nodemon cloudant",
     "watch": "nodemon server",
     "test": "mocha --timeout 720000",
     "unit-test": "mocha",
