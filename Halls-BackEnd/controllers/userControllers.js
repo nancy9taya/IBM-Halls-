@@ -194,7 +194,7 @@ exports.userSignup = async function (req, res, next) {
   });
   const token = jwt.sign(
     {
-      _id: user._id,
+      _id: uuidv4(),
       name: user.name,
     },
     process.env.JWTSECRET
