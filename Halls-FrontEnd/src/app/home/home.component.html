@@ -1,13 +1,20 @@
+
 <div class="container">
     <div class="split left">
         <!-- <img src="images/halls.png" alt="halls"> -->
-        <form action="#">
+        <form [formGroup]="rForm" (ngSubmit)="SignIn(rForm.value)">
         <h1 class="leftHeader">Sign In</h1>
-        <input class="inputData email" type="email" name="email" placeholder="Email">
-        <input class="inputData password" type="password" name="password" placeholder="Password">
+        <input class="inputData email" type="text" name="email" placeholder="Enter your user name" formControlName="name">
+        <div class="alert" *ngIf="!rForm.controls['name'].valid && rForm.controls['name'].touched">
+            {{titleAlert}}
+        </div>
+        <input class="inputData password" type="password" name="password" placeholder="Enter your Password" formControlName="password">
+        <div class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">
+            {{titleAlert}}
+        </div>
         <a href="#" class="forgetPass">Forgot Your Password?</a>
-        <a href="#" class="leftBtn">Sign In</a>
         <p> <span><input type="checkbox"></span>Remember me</p>
+        <input type="submit" class="leftBtn" value="Sign In" [disabled]="!rForm.valid">
         <a routerLink="/signup" class="createAccount" onclick="reDirectSgnUp()">Create an account</a>
         </form>
     </div>
@@ -23,5 +30,6 @@
         <a href="#" class="button">Try it!</a>
     </div>
   </div>
+  <script src="./controlSplit.js"></script>
 
   <router-outlet></router-outlet>

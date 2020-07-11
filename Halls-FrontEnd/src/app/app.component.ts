@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public url="http://localhost:3000/";
+  // public url="http://localhost:3000/";
+  public url="http://salmabehalls.eu-gb.mybluemix.net/";
 }
 
 

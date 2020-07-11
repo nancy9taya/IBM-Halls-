@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {AppComponent} from '../app.component'
 import {FormBuilder,FormGroup,Validators} from '@angular/forms'
-import {passValidator,emailValidator} from './validator'
+import {cnfPassValidator,emailValidator, passValidator} from './validator'
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +10,7 @@ import {passValidator,emailValidator} from './validator'
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  name:string="";
+  name:string='';
   email:string="";
   password:string="";
   Repassword:string="";
@@ -22,10 +22,10 @@ export class SignupComponent implements OnInit {
 
   constructor(private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder) {
     this.rForm=fb.group({
-      'name':[null,Validators.required] ,
-      'email':[null,emailValidator] ,
-      'password':[null,Validators.minLength(8)] ,
-      'Repassword':[null,passValidator] ,
+      'name':['',Validators.required] ,
+      'email':['',emailValidator] ,
+      'password':['',passValidator] ,
+      'Repassword':[null,cnfPassValidator] 
      })
      this.signUpUrl=this.appComponent.url;
 
@@ -38,9 +38,9 @@ export class SignupComponent implements OnInit {
   SignUp(data){
     console.log("Front SignUp "+this.signUpUrl)
     this.http.post<any>(this.signUpUrl+'user/signup',{
-        name:"Yasser",
-        email: "Salahfahaly131@gmail.com",
-        password: "FG6Gbhhjv",
+        name:data.name,
+        email: data.email,
+        password: data.password,
         birthDate:"2000-07-05",
         gender:"false",
         type:"free"
@@ -48,9 +48,6 @@ export class SignupComponent implements OnInit {
       console.log("Should be done")
     });
     return;
-  }
-  getName(item){
-    console.log(item.target.value)
   }
   
 }

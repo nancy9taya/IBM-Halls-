@@ -1,4 +1,3 @@
-
 :root {
     --container-bg-color:black;
     --left-bg-color: #f5f5f5;
@@ -23,7 +22,7 @@
     color:#2C3C5B;
     position: absolute;
     left: 50%;
-    top: 20%;
+    top: 12%;
     transform: translateX(-50%);
     white-space: nowrap;
 
@@ -48,12 +47,13 @@
   span{
     color:#2C3C5B;
     font-size: 1.2rem;
+    margin-bottom: 10px;
     font-family:  Tahoma, Geneva, Verdana, sans-serif;
   }
   .left p{
     color:#2C3C5B
   }  
-  .button {
+  .button{
     display: block;
     position: absolute;
     left: 70%;
@@ -77,17 +77,20 @@
     position: absolute;
     left: 50%;
     top: 65%;
-    height: 2.5rem;
+    height: 3.5rem;
     padding-top: 1rem;
     width: 15rem;
     text-align: center;
     color:#2C3C5B;
     border: #2C3C5B solid 0.2rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     text-decoration: none;
     transform: translateX(-50%);
     border-radius: 20px;
+    padding-bottom:20px;
+    margin-top: 25px;
+    text-transform: uppercase;
   }
   .split.left .leftBtn:hover {
     background-color: var(--left-button-hover-color);
@@ -156,8 +159,9 @@
 	flex-direction: column;
 	padding: 0 50px;
 	height: 100%;
-	text-align: center;
+	/* text-align: center; */
 }
+
 
 .inputData {
 	background-color:rgb(221, 221, 221);
@@ -165,24 +169,23 @@
   padding: 12px 15px;
   border-radius: 20px;
 	margin: 8px 0;
-    width: 25rem;
+  width: 25rem;
     
 }
 .email{
-    margin-top: 100px;
+  margin-top: 100px;
 }
 
 .forgetPass {
 	color:#088673;
 	font-size: 14px;
 	text-decoration: none;
-    margin-top: 35px;
+  margin-top: 30px;
 }
 .createAccount{
-    color:#088673;
+  color:#088673;
 	font-size: 20px;
-    margin-top: 100px;
-
+  margin-top: 120px;
 }
 
   
@@ -207,3 +210,26 @@
       top: 70%;
     }
   }
+
+  .alert {
+    background: #f5f5f5;
+    padding: 7px;
+    font-size: .9em;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: 2s alertAnim forwards;
+    color: #2C3C5B;    
+}
+
+@keyframes alertAnim {
+    from {
+        opacity:0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+
+

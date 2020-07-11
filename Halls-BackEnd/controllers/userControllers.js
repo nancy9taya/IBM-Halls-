@@ -184,7 +184,7 @@ exports.userSignup =  async function(req, res, next){
   if (error)
    return res.status(400).send({ message: error.details[0].message });
    const user = new User({
-    _id: uuidv4(),
+    // _id: uuidv4(),
     name:req.body.name,
     email: req.body.email,
     password: req.body.password,

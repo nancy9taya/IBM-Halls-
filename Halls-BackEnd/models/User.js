@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
 const userSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  // _id: mongoose.Schema.Types.ObjectId,
   name: {
     type: String,
     required: true
@@ -32,14 +32,6 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  maestroId:{
-    type: String ,
-    default: null
-  },
-  followersCount: { 
-    type: Number, 
-    default: 0
-  },
   isPremium :{
     type: Boolean,
     default: false
@@ -48,10 +40,6 @@ const userSchema = mongoose.Schema({
    data: Buffer,
    contentType: String
   },
-  providInfo:{
-    type: Boolean,
-    default: false
-  },
   country:{
     type: String,
     default: 'Egypt'
@@ -59,24 +47,6 @@ const userSchema = mongoose.Schema({
   type:{
     type: String,
     default: 'user'
-  },
-  externalUrls:{
-      key:{
-        type: String,
-        default: 'Maestro'
-      },
-      value:{
-        type: String,
-        default: 'https://open.Maestro.com/users/'
-      }
-  },
-  uri:{
-    type: String,
-    default: 'Maestro:User:'
-  },
-  href:{
-    type: String,
-    default:' https://api.Maestro.com/v1/users/'
   },
   active:{
     type: Boolean,
