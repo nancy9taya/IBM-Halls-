@@ -183,24 +183,27 @@ exports.userSignup = async function (req, res, next) {
   console.log("SIGN UP ACTION")
   if (error)
     return res.status(400).send({ message: error.details[0].message });
-  const user = new User({
-    // _id: uuidv4(),
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    birthDate: req.body.birthDate,
-    gender: req.body.gender,
-    type: req.body.type
-  });
-  const token = jwt.sign(
-    {
-      name: user.name
-    },
-    process.env.JWTSECRET
-  );
-  await user.save();
-  console.log("HEREEEEE")
-  return res.json({ message: "OK" ,token: token}).status(200);
+     bcrypt.hash(req.body.password, 10, (err, hash) => {
+      const user = new User({
+        // _id: uuidv4(),
+        name: req.body.name,
+        email: req.body.email,
+        password: hash,
+        birthDate: req.body.birthDate,
+        gender: req.body.gender,
+        type: req.body.type
+      });
+      const token = jwt.sign(
+        {
+          name: user.name
+        },
+        process.env.JWTSECRET
+      );
+      await user.save();
+      console.log("HEREEEEE")
+      return res.json({ message: "OK" ,token: token}).status(200);
+      });
+
   // db.insert(user, (err, result) => {
   //   if (err) {
   //       console.log('Error occurred: ' + err.message, 'create()');
