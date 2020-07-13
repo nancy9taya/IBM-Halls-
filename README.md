@@ -32,7 +32,7 @@ It's imperative that learning in universities, also the films in cinemas can con
 ## Demo video
 
 ## The architecture
-
+![architecture](https://github.com/SalmaFarghaly/Halls/blob/master/architecture.jpg)
 ## Long description
 
 ## Project roadmap
