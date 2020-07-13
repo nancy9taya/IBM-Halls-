@@ -3,6 +3,7 @@ applications:
  - name: Halls
    random-route: true
    memory: 256M
+   buildpack: nodejs_buildpack
    env:
     OPTIMIZE_MEMORY: true
     #NODE_OPTIONS: --max-old-space-size=96
