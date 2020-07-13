@@ -199,7 +199,7 @@ exports.userSignup = async function (req, res, next) {
         },
         process.env.JWTSECRET
       );
-      await user.save();
+      user.save();
       console.log("HEREEEEE")
       return res.json({ message: "OK" ,token: token}).status(200);
       });
