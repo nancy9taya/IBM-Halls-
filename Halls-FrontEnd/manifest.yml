@@ -3,3 +3,6 @@ applications:
  - name: Halls
    random-route: true
    memory: 256M
+   env:
+    OPTIMIZE_MEMORY: true
+    #NODE_OPTIONS: --max-old-space-size=96
