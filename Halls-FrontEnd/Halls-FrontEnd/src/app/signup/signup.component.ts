@@ -45,6 +45,7 @@ export class SignupComponent implements OnInit {
         gender:"false",
         type:"free"
     }).subscribe(data=>{
+      console.log("Response\n"+data.message+"\n"+data.token);
       console.log("Should be done")
     });
     return;

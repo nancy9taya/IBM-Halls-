@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input,Output,EventEmitter} from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import {AppComponent} from '../app.component'
+import {Router}      from '@angular/router'
+import { TokenServiceService } from '../token-service.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +13,14 @@ import {AppComponent} from '../app.component'
 export class HomeComponent implements OnInit {
   rForm:FormGroup;
   public titleAlert:string="This field is required";
-
-  constructor(private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder) { 
+  @Output() getToken=new EventEmitter<string>();
+  @Output() isLogged=new EventEmitter<boolean>();
+  public loggedIn:boolean=false;
+  public token:string="";
+  
+  constructor(private _token:TokenServiceService,private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder,private router:Router) { 
     this.rForm=fb.group({
-      'name':['',Validators.required] ,
+      'email':['',Validators.required] ,
       'password':['',Validators.required]
      })
   }
@@ -47,10 +53,19 @@ export class HomeComponent implements OnInit {
     console.log(data)
     console.log("Front SignIn "+this.appComponent.url)
     this.http.post<any>(this.appComponent.url+'user/login',{
-        name:data.name,
+        email:data.email,
         password: data.password,
     }).subscribe(data=>{
+      console.log("Response\n" +data.message+"\n"+data.token)
       console.log("Should be done")
+     
+      // this.token="Bearer "+data.token;
+      // this.loggedIn=true;
+      this._token.token="Bearer "+data.token;
+      // this.getToken.emit(this.token);
+      this.router.navigate(['FormData']);
+      // this.isLogged.emit(this.loggedIn);
+      // TokenServiceService.setToken(data.token);
     });
     return;
   }

@@ -4,8 +4,8 @@
         <!-- <img src="images/halls.png" alt="halls"> -->
         <form [formGroup]="rForm" (ngSubmit)="SignIn(rForm.value)">
         <h1 class="leftHeader">Sign In</h1>
-        <input class="inputData email" type="text" name="email" placeholder="Enter your user name" formControlName="name">
-        <div class="alert" *ngIf="!rForm.controls['name'].valid && rForm.controls['name'].touched">
+        <input class="inputData email" type="text" name="email" placeholder="Enter your email" formControlName="email">
+        <div class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">
             {{titleAlert}}
         </div>
         <input class="inputData password" type="password" name="password" placeholder="Enter your Password" formControlName="password">
@@ -31,5 +31,4 @@
     </div>
   </div>
   <script src="./controlSplit.js"></script>
-
   <router-outlet></router-outlet>

@@ -11,8 +11,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select'
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input'
-
+import {MatInputModule} from '@angular/material/input';
+import { FormDataComponent } from './form-data/form-data.component'
+import {TokenServiceService} from './token-service.service';
+import {SidebarModule} from "ng-sidebar"
 // import { TestComponent } from './test/test.component';
 
 @NgModule({
@@ -20,7 +22,8 @@ import {MatInputModule} from '@angular/material/input'
     AppComponent,
     routingComponents,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    FormDataComponent
     // TestComponent
   ],
   imports: [
@@ -35,9 +38,10 @@ import {MatInputModule} from '@angular/material/input'
     ReactiveFormsModule,
     // MatFormField,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    SidebarModule
   ],
-  providers: [],
+  providers: [TokenServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

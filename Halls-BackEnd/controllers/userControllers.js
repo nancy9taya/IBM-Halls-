@@ -178,23 +178,57 @@ const smtpTransport = nodemailer.createTransport({
 *@param {string}  res.message      the type of error /user created successfully
 *@param {token}   res.token   it returns token if user sigup successfully
  */
-exports.userSignup =  async function(req, res, next){
+// exports.userSignup =  async function(req, res, next){
+//   const { error } = joiValidate(req.body)
+//   console.log("SIGN UP ACTION")
+//   if (error)
+//    return res.status(400).send({ message: error.details[0].message });
+//    const user = new User({
+//     // _id: uuidv4(),
+//     name:req.body.name,
+//     email: req.body.email,
+//     password: req.body.password,
+//     birthDate:req.body.birthDate,
+//     gender:req.body.gender,
+//     type:req.body.type
+//   });
+//   await user.save();
+//   console.log("HEREEEEE")
+//   return res.json({message:"OK"}).status(200);
+//   // db.insert(user, (err, result) => {
+//   //   if (err) {
+//   //       console.log('Error occurred: ' + err.message, 'create()');
+//   //       return res.status(500).json({message: 'faild'});
+//   //   } else {
+//   //       return res.status(201).json({message: 'User created'});
+//   //   }
+// }
+exports.userSignup = async function (req, res, next) {
   const { error } = joiValidate(req.body)
   console.log("SIGN UP ACTION")
   if (error)
-   return res.status(400).send({ message: error.details[0].message });
-   const user = new User({
-    // _id: uuidv4(),
-    name:req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    birthDate:req.body.birthDate,
-    gender:req.body.gender,
-    type:req.body.type
-  });
-  await user.save();
-  console.log("HEREEEEE")
-  return res.json({message:"OK"}).status(200);
+    return res.status(400).send({ message: error.details[0].message });
+     bcrypt.hash(req.body.password, 10, async (err, hash) => {
+      const user = new User({
+        // _id: uuidv4(),
+        name: req.body.name,
+        email: req.body.email,
+        password: hash,
+        birthDate: req.body.birthDate,
+        gender: req.body.gender,
+        type: req.body.type
+      });
+      const token = jwt.sign(
+        {
+          name: user.name
+        },
+        process.env.JWTSECRET
+      );
+      await user.save();
+      console.log("HEREEEEE")
+      return res.json({ message: "OK" ,token: token}).status(200);
+      });
+
   // db.insert(user, (err, result) => {
   //   if (err) {
   //       console.log('Error occurred: ' + err.message, 'create()');
@@ -298,11 +332,14 @@ exports.userSignup =  async function(req, res, next){
  */
 
 exports.userLogin = (req, res, next) => {
+  console.log("Log in")
 
    User
     .findOne({ email: req.body.email })
     .exec()
     .then(user => {
+       console.log("IN the Then")
+       console.log(user);
       if (user.length < 1) {
         return res.status(401).json({
           message: 'Auth failed'
