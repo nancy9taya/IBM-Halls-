@@ -15,7 +15,7 @@ import {MatInputModule} from '@angular/material/input';
 import { FormDataComponent } from './form-data/form-data.component'
 import {TokenServiceService} from './token-service.service';
 import {SidebarModule} from "ng-sidebar"
-// import { TestComponent } from './test/test.component';
+import {MaterialModule} from './material/material.module'
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import {SidebarModule} from "ng-sidebar"
     // MatFormField,
     MatFormFieldModule,
     MatInputModule,
-    SidebarModule
+    MaterialModule
   ],
   providers: [TokenServiceService],
   bootstrap: [AppComponent]
