@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public url="http://HallsFE.eu-gb.cf.appdomain.cloud";
+   public url="http://salmabehalls.eu-gb.mybluemix.net/";
 
 }
 
