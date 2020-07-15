@@ -598,11 +598,12 @@ exports.userForgetPassword = (req, res, next) => {
     .findOne({ email: req.params.mail })
     .exec()
     .then(user => {
-      if (user.length < 1) {
+      if (user.length < 1 ) {
         return res.status(401).json({
           message: 'The Mail doesnot Exist'
         });
       }
+      console.log(user)
       console.log(user._id)
       console.log(user.email)
       console.log(req.params.mail)

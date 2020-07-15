@@ -12,12 +12,11 @@
  // Initialize Cloudant with settings from .env
  var username = process.env.cloudant_username || "nodejs";
  var password = process.env.cloudant_password;
- var cloudant = new Cloudant({ url:"https://4cf5dc48-8705-49e2-9672-a6542a0aaea9-bluemix.cloudant.com" , plugins: { iamauth: { iamApiKey: "wvxUMFT5UgL7ZEL_ARKwA-AifCrWVicETFDXAN4AQJ4c" } } });
-  //mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
- // catch(error => handleError(error));
-  //mongoose.set('useFindAndModify', false);
-
- // mongoose.Promise = global.Promise;
+ //var cloudant = new Cloudant({ url:"https://4cf5dc48-8705-49e2-9672-a6542a0aaea9-bluemix.cloudant.com" , plugins: { iamauth: { iamApiKey: "wvxUMFT5UgL7ZEL_ARKwA-AifCrWVicETFDXAN4AQJ4c" } } });
+  mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+ catch(error => handleError(error));
+  mongoose.set('useFindAndModify', false);
+ mongoose.Promise = global.Promise;
  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
 
  //let db="mongodb://localhost/MaestroApp"
@@ -34,9 +33,9 @@
     //migrated.forEach(fileName => console.log('Migrated:', fileName));
  
  
-  // mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
-  // catch(error => handleError(error));
-  // mongoose.set('useFindAndModify', false);
+/*   mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  catch(error => handleError(error));
+  mongoose.set('useFindAndModify', false); */
 
   
   app.use(morgan("dev"));
