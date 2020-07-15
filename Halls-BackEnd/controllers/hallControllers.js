@@ -26,9 +26,16 @@ function joiValidate(req) {
             Joi.number().required(),
         chairWidth:
             Joi.number().required(),
-        benchesWidth: Joi.number().required(),
-        columnsThenGap: Joi.number().required(),
-        gapwidth: Joi.number().required()
+        isBench: 
+            Joi.number().required(),   
+        benchesWidth:
+            Joi.number().required(),
+        isGap:
+            Joi.number().required(),
+        columnsThenGap: 
+            Joi.number().required(),
+        gapwidth: 
+            Joi.number().required()
     }
     return Joi.validate(req, schema);
 };
@@ -198,16 +205,25 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
         return output;
     }
 };
-function cirular_algorithims(caseNo, rows, columns, chairLength, chairWidth, benchesWidth, columnsThenGap, gapwidth) {
-
-
-
-
-
-}
 exports.distributionAlgo = (req, res, next) => {
-
-
+//first valdiate
+const { error } = joiValidate(req.body)
+if (error)
+  return res.status(400).send({ message: error.details[0].message });
+  let gap;
+  let benches;
+  let caseNo;
+if(req.isBench == 1){
+    benches = true;
+}else{
+    benches = false;
+}
+if(req.isGap == 1){
+    gap = true;
+}else{
+    gap = false;
+}
+caseNo = cases(gap, benches);
 
 
 

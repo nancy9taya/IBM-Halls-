@@ -47,6 +47,7 @@
     "chai-http": "^1.0.0"
   },
   "scripts": {
+    "front" : "nodemon ser",
     "start": "node --trace-gc server.js",
     "app": "nodemon cloudant",
     "watch": "nodemon server",
