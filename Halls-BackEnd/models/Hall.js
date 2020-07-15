@@ -13,12 +13,6 @@ const hallSchema = mongoose.Schema({
   columns:{
     type: Number
   },
-  firstColumn:{
-    type: Number
-  },
- increasedColumn:{
-    type: Number
- },
  chairLength:{
     type: Number
  },
@@ -43,6 +37,9 @@ const hallSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:'User'
  },
+ distibution:{
+   type: Array
+ }
 });
 
 module.exports= mongoose.model('Hall', hallSchema);

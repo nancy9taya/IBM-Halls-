@@ -6,6 +6,7 @@
   const mongoose = require("mongoose");
   const  FBlogin = require('./routes/FBlogin');
   const userRoutes = require('./routes/user');
+  const hallRoutes = require('./routes/hall');
  // app.use('/uploads', express.static('uploads'));
  var Cloudant = require('@cloudant/cloudant');
  // Initialize Cloudant with settings from .env
@@ -33,9 +34,9 @@
     //migrated.forEach(fileName => console.log('Migrated:', fileName));
  
  
-  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
-  catch(error => handleError(error));
-  mongoose.set('useFindAndModify', false);
+  // mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  // catch(error => handleError(error));
+  // mongoose.set('useFindAndModify', false);
 
   
   app.use(morgan("dev"));
@@ -68,7 +69,7 @@
   app.use(passport.initialize());  
   app.use("/user", userRoutes);
   app.use("/auth",FBlogin);
-
+  app.use("/hall",hallRoutes);
   
   app.use((req, res, next) => {
     const error = new Error("Not found");

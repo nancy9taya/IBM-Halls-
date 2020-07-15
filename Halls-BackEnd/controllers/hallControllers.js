@@ -2,39 +2,34 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const User = require('../models/User');
+const Hall = require('../models/Hall');
 const env = require('dotenv').config();
 var randomHash = require('random-key');
 var randomBytes = require('crypto');
 var { db_halls } = require('../cloudant');
 const { clearLine } = require('readline');
-
+const { v4: uuidv4 } = require('uuid');
 var output = new Array();
 
 function joiValidate(req) {
     const schema = {
-        shape:
-            Joi.number().required(),
         rows:
             Joi.number().required(),
         columns:
-            Joi.number(),
-        firstColumn:
-            Joi.number(),
-        increasedColumn:
             Joi.number(),
         chairLength:
             Joi.number().required(),
         chairWidth:
             Joi.number().required(),
-        isBench: 
-            Joi.number().required(),   
+        isBench:
+            Joi.number().required(),
         benchesWidth:
             Joi.number().required(),
         isGap:
             Joi.number().required(),
-        columnsThenGap: 
+        columnsThenGap:
             Joi.number().required(),
-        gapwidth: 
+        gapwidth:
             Joi.number().required()
     }
     return Joi.validate(req, schema);
@@ -206,26 +201,50 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
     }
 };
 exports.distributionAlgo = (req, res, next) => {
-//first valdiate
-const { error } = joiValidate(req.body)
-if (error)
-  return res.status(400).send({ message: error.details[0].message });
-  let gap;
-  let benches;
-  let caseNo;
-if(req.isBench == 1){
-    benches = true;
-}else{
-    benches = false;
-}
-if(req.isGap == 1){
-    gap = true;
-}else{
-    gap = false;
-}
-caseNo = cases(gap, benches);
+    //first valdiate
+    const { error } = joiValidate(req.body)
+    if (error)
+        return res.status(400).send({ message: error.details[0].message });
 
+       // return res.json({ message: "Done"}).status(200);
+    let gap;
+    let benches;
+    let caseNo;
+    var output_distribution = new Array();
 
-
+    if (req.body.isBench == 1) {
+        benches = true;
+    } else {
+        benches = false;
+    }
+    if (req.body.isGap == 1) {
+        gap = true;
+    } else {
+        gap = false;
+    }
+    caseNo = cases(gap, benches);
+    console.log(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
+    return res.json({ message: "Done"}).status(200);
+    // output_distribution = fixed_algorithims(caseNo, req.rows, req.columns, req.chairLength, req.chairWidth, req.benchesWidth, req.columnsThenGap, req.gapwidth);
+    // const hall = new Hall({
+    //     _id: uuidv4(),
+    //     rows: req.rows,
+    //     columns: req.columns,
+    //     chairLength: req.chairLength,
+    //     chairWidth: req.chairWidth,
+    //     benchesWidth: req.benchesWidth,
+    //     columnsThenGap: req.columnsThenGap,
+    //     gapwidth: req.gapwidth,
+    //     distibution: output_distribution
+    // });
+    // console.log(output_distribution);
+    // db_halls.insert(hall, (err, result) => {
+    //     if (err) {
+    //         console.log('Error occurred: ' + err.message, 'create()');
+    //         return res.status(500).json({ message: 'faild' });
+    //     } else {
+    //         return res.status(200).json({ message: "Done" });
+    //     }
+    // });
 
 };
