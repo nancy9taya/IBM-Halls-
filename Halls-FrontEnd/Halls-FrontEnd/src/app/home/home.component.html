@@ -8,9 +8,14 @@
         <div class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">
             {{titleAlert}}
         </div>
-        <input class="inputData password" type="password" name="password" placeholder="Enter your Password" formControlName="password">
+        
+        <input (focus)="focusIn($event)" class="inputData password" type="password" name="password" placeholder="Enter your Password" formControlName="password">
         <div class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">
             {{titleAlert}}
+        </div>
+        
+        <div class="alert invalidPassword" *ngIf="!isValidPass" >
+            this password is invalid
         </div>
         <a href="#" class="forgetPass">Forgot Your Password?</a>
         <p> <span><input type="checkbox"></span>Remember me</p>
@@ -27,7 +32,7 @@
             <p>Enter the image of you to <span>H a l l s </span> and we will distribute it
             Give it a try ;)</p> 
         </div>
-        <a href="#" class="button">Try it!</a>
+        <!-- <a href="#" class="button">Try it!</a> -->
     </div>
   </div>
   <script src="./controlSplit.js"></script>

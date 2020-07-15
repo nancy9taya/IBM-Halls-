@@ -1,6 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { TokenServiceService } from '../token-service.service';
 import {FormBuilder,FormGroup, Validators} from '@angular/forms'
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-form-data',
@@ -15,10 +16,10 @@ export class FormDataComponent implements OnInit {
   titleAlert:string="This field is required";
   message:string="please enter a positive number";
   // public isLogged;
-  constructor(private fb:FormBuilder,private _token:TokenServiceService ) { }
+  constructor(private http:HttpClient,private fb:FormBuilder ) { }
 
   ngOnInit(): void {
-    this.token=this._token.token;
+    
     this.myForm=this.fb.group({
       rowsCnt:['',Validators.required],
       colsCnt:['',Validators.required],
@@ -31,7 +32,15 @@ export class FormDataComponent implements OnInit {
   }
     
   submit(data):void{
+    console.log(data)
     console.log("HERREEEEEEEEE")
+    this.http.get<any>('http://localhost:3000/FormData')
+    .subscribe(data=>{
+      console.log("Response\n"+data.message+"\n"+data.token);
+      console.log("Should be done")
+    },
+    err=>console.log(err));
+    return;
   }
   
 

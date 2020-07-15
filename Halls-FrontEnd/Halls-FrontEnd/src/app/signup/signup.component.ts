@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {AppComponent} from '../app.component'
 import {FormBuilder,FormGroup,Validators} from '@angular/forms'
 import {cnfPassValidator,emailValidator, passValidator} from './validator'
+import {AuthService} from '../auth.service'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +22,8 @@ export class SignupComponent implements OnInit {
   passAlert:string="Password should has minuimum 8 characters";
   cnfPassAlert:string="The passwords don't match";
 
-  constructor(private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder) {
+  constructor(private http:HttpClient,private appComponent:AppComponent
+    ,private fb:FormBuilder,private _auth:AuthService,private router:Router) {
     this.rForm=fb.group({
       'name':['',Validators.required] ,
       'email':['',emailValidator] ,
@@ -36,18 +39,14 @@ export class SignupComponent implements OnInit {
   }
   //make the request
   SignUp(data){
-    console.log("Front SignUp "+this.signUpUrl)
-    this.http.post<any>(this.signUpUrl+'user/signup',{
-        name:data.name,
-        email: data.email,
-        password: data.password,
-        birthDate:"2000-07-05",
-        gender:"false",
-        type:"free"
-    }).subscribe(data=>{
-      console.log("Response\n"+data.message+"\n"+data.token);
-      console.log("Should be done")
-    });
+    this._auth.SignUp(data).subscribe(
+      res=>{
+        console.log(res)
+        localStorage.setItem('token',res.token)
+        this.router.navigate(['/FormData'])
+      },
+      err=>console.log(err)
+    )
     return;
   }
   

@@ -1,9 +1,9 @@
 import { Component, OnInit ,Input,Output,EventEmitter} from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from '@angular/forms'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {AppComponent} from '../app.component'
 import {Router}      from '@angular/router'
-import { TokenServiceService } from '../token-service.service';
+import {AuthService} from '../auth.service'
 
 @Component({
   selector: 'app-home',
@@ -17,8 +17,10 @@ export class HomeComponent implements OnInit {
   @Output() isLogged=new EventEmitter<boolean>();
   public loggedIn:boolean=false;
   public token:string="";
+  isValidPass:boolean=true; 
+  showPassword:boolean=false;
   
-  constructor(private _token:TokenServiceService,private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder,private router:Router) { 
+  constructor(private _auth:AuthService,private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder,private router:Router) { 
     this.rForm=fb.group({
       'email':['',Validators.required] ,
       'password':['',Validators.required]
@@ -47,27 +49,30 @@ export class HomeComponent implements OnInit {
     });
 
   }
-
-  SignIn(data){
-    console.log("Sign In")
-    console.log(data)
-    console.log("Front SignIn "+this.appComponent.url)
-    this.http.post<any>(this.appComponent.url+'user/login',{
-        email:data.email,
-        password: data.password,
-    }).subscribe(data=>{
-      console.log("Response\n" +data.message+"\n"+data.token)
-      console.log("Should be done")
-     
-      // this.token="Bearer "+data.token;
-      // this.loggedIn=true;
-      this._token.token="Bearer "+data.token;
-      // this.getToken.emit(this.token);
-      this.router.navigate(['FormData']);
-      // this.isLogged.emit(this.loggedIn);
-      // TokenServiceService.setToken(data.token);
-    });
-    return;
+  focusIn(event: FocusEvent) {
+    console.log(event.detail);
+    this.isValidPass=true;
   }
 
+  SignIn(data){
+    const user={
+      email:data.email,
+      password:data.password
+    }
+    this._auth.loginUser(user).subscribe(
+      res=>{
+        console.log(res)
+        localStorage.setItem('token',res.token)
+        this.router.navigate(['/FormData'])
+      },
+      err=>{
+      if(err instanceof HttpErrorResponse){
+        if(err.status===401){
+          this.isValidPass=false;        
+        }
+      }
+    
+  })
+
+}
 }

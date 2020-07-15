@@ -220,7 +220,11 @@
     animation: 2s alertAnim forwards;
     color: #2C3C5B;    
 }
-
+.invalidPassword{
+  color: red;
+  font-size: medium;
+  font-weight: bold;
+}
 @keyframes alertAnim {
     from {
         opacity:0;

@@ -201,7 +201,7 @@ exports.userSignup = async function (req, res, next) {
       );
       await user.save();
       console.log("HEREEEEE")
-      return res.json({ message: "OK" ,token: token}).status(200);
+      return res.json({token}).status(200);
       });
 
   // db.insert(user, (err, result) => {
@@ -316,18 +316,24 @@ exports.userLogin = (req, res, next) => {
        console.log("IN the Then")
        console.log(user);
       if (user.length < 1) {
+        console.log("HER2")
         return res.status(401).json({
           message: 'Auth failed'
         });
       }
-      bcrypt.compare(req.body.password, user.password, (err, result) => {
+      console.log("Her333")
+      bcrypt.compare(req.body.password, user.password,function (err, result){
+        console.log("HEREEEE4")
+        console.log("err "+err)
+        console.log("result "+result)
         if (err) {
+          console.log('invalid1')
           return res.status(401).json({
             message: 'Auth failed'
           });
         }
         if (result) {
-
+          console.log('invalid2')
           const token = jwt.sign(
             {
               _id: user._id,
@@ -341,16 +347,21 @@ exports.userLogin = (req, res, next) => {
           User.updateOne({ email: req.body.email }, { token: token })
             .exec()
             .then(result => {
+              console.log('invalid3')
               return res.status(200).json({
                 message: 'Auth successful',
                 token: token
               });
             })
             .catch(err => {
+              console.log('invalid4')
               res.status(401).json({
                 message: 'Auth failed'
               });
             });
+        }
+        else{
+          res.status(401).json({message:'Invalid password'})
         }
       });
     })
@@ -360,7 +371,13 @@ exports.userLogin = (req, res, next) => {
         error: err
       });
     });
+    
 };
+exports.getData=(req,res) => {
+  console.log("EEEEEEEEEEEEEEEEEEEEEEEE")
+  console.log(req.headers.authorization)
+  return res.status(200).json({message:ok});
+ }
 /**
 * UserController verify mail
 *@memberof module:controllers/userControllers 

@@ -35,6 +35,7 @@ function joiValidate(req) {
 exports.validateHallData = joiValidate;
 
 
+
 function horizontalDistance(chairWidth) {//if there isnot any gap
     let distance = Math.ceil(100 / chairWidth);
     return distance;
