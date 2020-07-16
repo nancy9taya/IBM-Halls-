@@ -13,6 +13,6 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(port,);
+app.listen(port);
 console.log(`App listening on port ${port}`);
 console.log('Press Ctrl+C to quit.');
