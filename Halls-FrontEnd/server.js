@@ -1,7 +1,6 @@
 var bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
-const v8 = require('v8');
 const port = process.env.PORT || 3000; 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'));
@@ -14,7 +13,6 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
-  console.log('Press Ctrl+C to quit.');
-});
+app.listen(port,);
+console.log(`App listening on port ${port}`);
+console.log('Press Ctrl+C to quit.');

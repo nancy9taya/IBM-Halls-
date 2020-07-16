@@ -2,7 +2,7 @@
   "name": "structural-directives",
   "version": "0.0.0",
   "scripts": {
-    "start": "node --trace-gc server.js",
+    "start": "node  server.js",
     "ng": "ng",
     "build": "ng build",
     "test": "ng test",
