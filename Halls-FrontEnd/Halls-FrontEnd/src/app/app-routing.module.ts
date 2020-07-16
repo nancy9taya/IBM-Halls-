@@ -3,10 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import {FormDataComponent} from './form-data/form-data.component'
+import {ForgetPassComponent} from './forgetpass/forgetpass.component'
+import {ResetpassComponent} from './resetpass/resetpass.component'
 import {AuthGuard} from './auth.guard'
 
 const routes: Routes = [{path:'signup',component:SignupComponent},
-                        {path:'',component:HomeComponent,},
+                        {path:'',component:HomeComponent},
+                        {path:'forgetpass',component:ForgetPassComponent},
+                        {path:'resetpass',component:ResetpassComponent},
                         {path:'FormData',component:FormDataComponent,canActivate:[AuthGuard]}
 ];
 

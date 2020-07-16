@@ -8,6 +8,7 @@
   const userRoutes = require('./routes/user');
  // app.use('/uploads', express.static('uploads'));
  var Cloudant = require('@cloudant/cloudant');
+ const cors=require('cors');
  const checkAuth = require('./middleware/checkAuth');
  // Initialize Cloudant with settings from .env
  var username = process.env.cloudant_username || "nodejs";
@@ -16,7 +17,7 @@
 
  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
 
- //let db="mongodb://localhost/MaestroApp"
+//  let db="mongodb://localhost/MaestroApp"
   /* mongoose
     .connect(db, {
       useCreateIndex: true,
@@ -30,13 +31,15 @@
     //migrated.forEach(fileName => console.log('Migrated:', fileName));
  
  
-  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).catch(error => handleError(error));
+  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  })
+  .catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
-
+    mongoose.Promise=global.Promise;
   
   app.use(morgan("dev"));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(cors());
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -61,6 +64,7 @@
       done(err, user);
     });
   });
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
   app.use(passport.initialize());  
   app.use("/user", userRoutes);
   app.use("/auth",FBlogin);

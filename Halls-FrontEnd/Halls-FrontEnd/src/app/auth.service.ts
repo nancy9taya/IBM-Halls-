@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient,HttpParams} from '@angular/common/http'
+import{Router} from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,9 @@ import {HttpClient} from '@angular/common/http'
 export class AuthService {
   private _loginUrl="http://localhost:3000/user/login";
   private _signUpUrl="http://localhost:3000/user/signup"
-  constructor(private http:HttpClient) { }
+  private _verifyUrl="http://localhost:3000/user/forgetPassword/";
+  private _resetPassUrl="http://localhost:3000/user/resetPassword"
+  constructor(private http:HttpClient,private _router:Router) { }
 
 
   loginUser(user){
@@ -22,11 +25,29 @@ export class AuthService {
         gender:"false",
         type:"free"})
   }
+  forgetPassword(user){
+    const url=this._verifyUrl+user.email;
+    console.log(url)
+    return this.http.get<any>(url)
+  }
+  resetPassword(user,id){
+    console.log(id)
+    const query={params:new HttpParams({fromString:"_id=`${id}`"})}
+    return this.http.post<any>(this._resetPassUrl,{
+      newPassword:user.password,
+      confirmedPassword:user.Repassword
+    },{params:{id:id}})
+    }
   loggedIn(){
     return !!localStorage.getItem('token');
   }
   getToken(){
     console.log("tokennnnnn   "+localStorage.getItem('token'))
     return localStorage.getItem('token');
+  }
+  logOut(){
+    localStorage.removeItem('token');
+    this._router.navigate(['']);
+
   }
 }
