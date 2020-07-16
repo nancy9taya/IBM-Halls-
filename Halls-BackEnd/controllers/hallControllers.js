@@ -223,28 +223,28 @@ exports.distributionAlgo = (req, res, next) => {
         gap = false;
     }
     caseNo = cases(gap, benches);
-    console.log(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
+  // console.log(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
     return res.json({ message: "Done"}).status(200);
-    // output_distribution = fixed_algorithims(caseNo, req.rows, req.columns, req.chairLength, req.chairWidth, req.benchesWidth, req.columnsThenGap, req.gapwidth);
-    // const hall = new Hall({
-    //     _id: uuidv4(),
-    //     rows: req.rows,
-    //     columns: req.columns,
-    //     chairLength: req.chairLength,
-    //     chairWidth: req.chairWidth,
-    //     benchesWidth: req.benchesWidth,
-    //     columnsThenGap: req.columnsThenGap,
-    //     gapwidth: req.gapwidth,
-    //     distibution: output_distribution
-    // });
-    // console.log(output_distribution);
-    // db_halls.insert(hall, (err, result) => {
-    //     if (err) {
-    //         console.log('Error occurred: ' + err.message, 'create()');
-    //         return res.status(500).json({ message: 'faild' });
-    //     } else {
-    //         return res.status(200).json({ message: "Done" });
-    //     }
-    // });
+    output_distribution = fixed_algorithims(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
+    const hall = new Hall({
+        _id: uuidv4(),
+        rows: req.body.rows,
+        columns: req.body.columns,
+        chairLength: req.body.chairLength,
+        chairWidth: req.body.chairWidth,
+        benchesWidth: req.body.benchesWidth,
+        columnsThenGap: req.body.columnsThenGap,
+        gapwidth: req.body.gapwidth,
+        distibution: output_distribution
+    });
+    console.log(hall);
+    db_halls.insert(hall, (err, result) => {
+        if (err) {
+            console.log('Error occurred: ' + err.message, 'create()');
+            return res.status(500).json({ message: 'faild' });
+        } else {
+            return res.status(200).json({ message: "Done" ,hall: hall});
+        }
+    });
 
 };
