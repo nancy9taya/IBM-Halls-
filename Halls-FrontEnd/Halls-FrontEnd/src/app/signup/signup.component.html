@@ -1,0 +1,45 @@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+    <form [formGroup]="rForm" (ngSubmit)="SignUp(rForm.value)">
+      <div class="form-container">
+        <div class="row columns">
+          <img src="../../assets/images/halls.png" alt="halls">
+          <h1>Sign Up Now</h1>
+  
+          <label >User Name
+            <input type="text" formControlName="name" value={{name}} placeholder="Enter your user name">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['name'].valid && rForm.controls['name'].touched">
+              {{titleAlert}}
+          </div>
+
+          <label >Email
+            <input type="text" placeholder="Enter your email" formControlName="email">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">
+              This field is required and it should be in an email
+          </div>
+          <label for="passwordInput">Password
+            <input type="password" placeholder="Enter your password" formControlName="password">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">
+              {{passAlert}}
+          </div>
+          <label for="ConfPassword">Retype password
+            <input type="password" placeholder="Confirm your password" formControlName="Repassword">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['Repassword'].valid && rForm.controls['Repassword'].touched">
+              {{cnfPassAlert}}
+          </div>
+
+          <input type="submit" class="button expanded" value="Sign Up" [disabled]="!rForm.valid">
+  
+        </div>
+      </div>
+    </form>
+  
+  

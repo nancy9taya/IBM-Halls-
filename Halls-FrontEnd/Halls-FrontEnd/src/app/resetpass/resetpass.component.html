@@ -1,0 +1,42 @@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+    <form [formGroup]="rForm" (ngSubmit)="Submit(rForm.value)">
+      <div class="form-container">
+        <div class="row columns">
+          <img src="../../assets/images/halls.png" alt="halls">
+          <h1>Reset Password</h1>
+
+          <label for="passwordInput">Password
+            <input type="password" placeholder="Enter your password" formControlName="password">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].touched">
+              This password should have at least 8 characters
+          </div>
+          <label for="ConfPassword">Retype password
+            <input type="password" placeholder="Confirm your password" formControlName="Repassword">
+          </label>
+  
+          <div class="alert" *ngIf="!rForm.controls['Repassword'].valid && rForm.controls['Repassword'].touched">
+              The passwords don't match 
+          </div>
+
+
+
+          <input type="submit" class="button expanded" value="Change Password" [disabled]="!rForm.valid">
+          <div class="alertPass Success" *ngIf="successReset">
+            Your password has been reset successfully
+        </div>
+
+        <div class="alertPass Fail" *ngIf="failedReset">
+          Your password hasn't been reset,Please try again
+      </div>
+      <br>
+      <a class="back" routerLink="/formData" *ngIf="successReset">click here to start using the website</a>
+
+
+        </div>
+      </div>
+    </form>
+  
+  
