@@ -4,9 +4,6 @@ const Joi = require('joi');
 
 const hallSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  shape:{
-    type: String  //circular or fixed 
-  },
   rows:{
     type: Number
   },

@@ -43,9 +43,7 @@ function joiValidate(req) {
     birthDate:
       Joi.date().required().min('1-1-1900').iso(),
     gender:
-      Joi.boolean().required(),
-    type:
-      Joi.string().required()
+      Joi.boolean().required()
   }
   return Joi.validate(req, schema);
 };
@@ -70,25 +68,6 @@ function validatePassword(req) {
 
 exports.validateUserPassword = validatePassword;
 /**
-* UserController change password valdiation
-*@memberof module:controllers/userControllers
-*@param {object}   req.body
-*@param {string}   req.body.oldPassword  you put password  min 8 characters and max is 80
-*@param {string}   req.body.newPassword       you put password  min 8 characters and max is 80
-*@param {string}   req.body.confirmedPassword  you put password  min 8 characters and max is 80
- */
-function changePassword(req) {
-
-  const schema = {
-    oldPassword: Joi.string().min(8).max(80).alphanum().required(),
-    newPassword: Joi.string().min(8).max(80).alphanum().required(),
-    confirmedPassword: Joi.string().min(8).max(80).alphanum().required()
-  }
-  return Joi.validate(req, schema);
-}
-
-exports.validateChangePassword = changePassword;
-/**
 * UserController random hash generator
 *@memberof module:controllers/userControllers
 *@param {schema}  rand
@@ -97,35 +76,7 @@ exports.validateChangePassword = changePassword;
 function randGenerator() {
   rand.randNo = randomHash.generate(50);
 }
-/**
-* UserController edit his profile including editing his email
-*@memberof module:controllers/userControllers
-*@param {object}   req.body
-*@param {string}   req.body.email  - edit the email
-*@param {string}   req.body.password  - edit the password
-*@param {string}   req.body.gender  - edit the gender
-*@param {string}   req.body.birthDate  - edit the birth date
-*@param {string}   req.body.country - edit the country
-*@param {string}   req.body.phone  - edit the Mobile number
-*/
-function validateEdit(req) {
-  const schema = {
-    email:
-      Joi.string().email().lowercase().required(),
-    password:
-      Joi.string().min(8).max(80).alphanum().required(),
-    gender:
-      Joi.bool(),
-    birthDate:
-      Joi.date().min('1-1-1900').max('1-1-2009').iso(),
-    country:
-      Joi.string(),
-    phone:
-      Joi.string()
-  }
-  return Joi.validate(req, schema);
-}
-exports.validateFullEdit = validateEdit
+
 /**
 * UserController edit his profile Without editing his email
 *@memberof module:controllers/userControllers
@@ -136,29 +87,13 @@ exports.validateFullEdit = validateEdit
 *@param {string}   req.body.country - edit the country
 *@param {string}   req.body.phone  - edit the Mobile number
 */
-function validateEditWithoutEmail(req) { //na2s el phone
-  const schema = {
-    email:
-      Joi.string().email().lowercase().required(),
-    gender:
-      Joi.bool(),
-    birthDate:
-      Joi.date().min('1-1-1900').max('1-1-2009').iso(),
-    country:
-      Joi.string(),
-    phone:
-      Joi.string()
-  }
-  return Joi.validate(req, schema);
-}
-exports.validateEditWithoutMail = validateEditWithoutEmail;
 
 const smtpTransport = nodemailer.createTransport({
   service: 'gmail',
   port: 8000,
   secure: false,
   auth: {
-    user: process.env.MAESTROEMAIL,//change 
+    user: process.env.HALLEMAIL,//change 
     pass: process.env.PASSWORD
   }
 });
@@ -180,119 +115,57 @@ const smtpTransport = nodemailer.createTransport({
  */
 exports.userSignup = async function (req, res, next) {
   const { error } = joiValidate(req.body)
-  console.log("SIGN UP ACTION")
   if (error)
     return res.status(400).send({ message: error.details[0].message });
-     bcrypt.hash(req.body.password, 10, async (err, hash) => {
-      const user = new User({
-        // _id: uuidv4(),
-        name: req.body.name,
-        email: req.body.email,
-        password: hash,
-        birthDate: req.body.birthDate,
-        gender: req.body.gender,
-        type: req.body.type
+  bcrypt.hash(req.body.password, 10, async (err, hash) => {
+    if (err) {
+      return res.status(500).json({
+        error: err
       });
-      const token = jwt.sign(
-        {
-          name: user.name
-        },
-        process.env.JWTSECRET
-      );
-      await user.save();
-      console.log("HEREEEEE")
-      return res.json({token}).status(200);
-      });
+    } else {
+      randGenerator();
+      const host = req.get('host');//just our locahost
+      const link = "http://" + host + "/user/verify?id=" + rand.randNo;
+      mailOptions = {
+        from: 'Do Not Reply ' + process.env.MAESTROEMAIL,
+        to: req.body.email,//put user email
+        subject: "Please confirm your Email account",
+        html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
+      }
+      //console.log(mailOptions);
+      smtpTransport.sendMail(mailOptions, async function (error, response) {
+        if (error) {
+          console.log(error);
+          return res.status(500).send({ msg: 'Unable to send email' });
 
-  // db.insert(user, (err, result) => {
-  //   if (err) {
-  //       console.log('Error occurred: ' + err.message, 'create()');
-  //       return res.status(500).json({message: 'faild'});
-  //   } else {
-  //       return res.status(201).json({message: 'User created'});
-  //   }
+        } else {
+          const user = new User({
+            _id: uuidv4(),
+            name: req.body.name,
+            email: req.body.email,
+            password: hash,
+            birthDate: req.body.birthDate,
+            gender: req.body.gender
+          });
+          const token = jwt.sign(
+            {
+              name: user.name
+            },
+            process.env.JWTSECRET
+          );
+          db_users.insert(user, (err, result) => {
+            if (err) {
+              console.log('Error occurred: ' + err.message, 'create()');
+              return res.status(500).json({ message: 'faild' });
+            } else {
+              return res.json({ token }).status(200);
+            }
+          });
+        }
+      });
+    }
+  });
 }
-//this object is created for LikedSongLibrary
-/*let userId;
-User.find({ name: req.body.name  })
-.exec()
- .then(user => {
-   if (user.length >= 1) {
-     return res.status(409).json({
-       message: 'Username already exists'
-     });
-   }  
-   else {
-         bcrypt.hash(req.body.password, 10, (err, hash) => {
-           if (err) {
-             return res.status(500).json({
-               error: err
-             });
-           } else {
-            randGenerator();
-            const host = req.get('host');//just our locahost
-            const link="http://"+host+"/user/verify?id="+rand.randNo;
-            mailOptions={
-                 from: 'Do Not Reply '+process.env.MAESTROEMAIL,
-                 to : req.body.email,//put user email
-                 subject : "Please confirm your Email account",
-                 html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-             }
-            console.log(mailOptions);
-            smtpTransport.sendMail(mailOptions,async function(error, response){
-            if(error){
-               console.log(error);
-               return res.status(500).send({ msg: 'Unable to send email' });     
-               
-            }else{
-                   //here that the message send successfulyy so the user can sign up  
-                   const user = new User({
-                     _id: new mongoose.Types.ObjectId(),
-                     name:req.body.name,
-                     email: req.body.email,
-                     password: hash,
-                     birthDate:req.body.birthDate,
-                     gender:req.body.gender,
-                     type:req.body.type
-                   });
-                   rand.userId=user._id;//to use it back in verify mail
-                   rand.save().then().catch();
-                   user.uri= 'Maestro:User:'+ user._id.toString();
-                   user.href = 'https://api.Maestro.com/v1/users/'+ user._id.toString();
-                   user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
-                   user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
-                   user.image.contentType = 'jpg';
-                   user.maestroId = randomHash.generate(30);
-                   const token = jwt.sign(
-                     { _id: user._id,
-                       name: user.name, 
-                     },
-                     process.env.JWTSECRET
-                   );
-                   user.token = token ;
-                   user
-                     .save()
-                     .then(result => {
-                       console.log(result);
-                       res.status(201).json({
-                         message: 'User created',
-                         token: token
-                       });
-                         //creating the playlist liked songs playlist after creating the user
-                     //  trackController.createLikedSongs(user._id); 
-                     })
-                     .catch(err => {
-                       console.log(err);
-                       res.status(500).json({
-                         error: err
-                       });
-                     });
-                  }
-             });
-           }
-         });
-       }
-  });      */
 /**
 * UserController login 
 *@memberof module:controllers/userControllers
@@ -307,77 +180,32 @@ User.find({ name: req.body.name  })
  */
 
 exports.userLogin = (req, res, next) => {
-  console.log("Log in")
-
-  User
-    .findOne({ email: req.body.email })
-    .exec()
-    .then(user => {
-       console.log("IN the Then")
-       console.log(user);
-      if (user.length < 1) {
-        console.log("HER2")
-        return res.status(401).json({
-          message: 'Auth failed'
-        });
-      }
-      console.log("Her333")
-      bcrypt.compare(req.body.password, user.password,function (err, result){
-        console.log("HEREEEE4")
-        console.log("err "+err)
-        console.log("result "+result)
+  let selector = {}
+  selector['email'] = req.body.email;
+  db_users.find({ 'selector': selector }, (err, documents) => {
+    if (err) {
+      console.log('Error occurred: ' + err.message, 'create()');
+      return res.status(401).json({ message: 'failed' });
+    } else {
+      console.log(documents.docs.length);
+      bcrypt.compare(req.body.password, documents.docs[0].password, function (err, result) {
         if (err) {
-          console.log('invalid1')
-          return res.status(401).json({
-            message: 'Auth failed'
-          });
+          return res.status(401).json({ message: 'Auth failed' });
         }
         if (result) {
-          console.log('invalid2')
           const token = jwt.sign(
             {
-              _id: user._id,
-              name: user.name,
+              _id: documents.docs[0]._id
             },
-            process.env.JWTSECRET,
-            {
-              expiresIn: '7d'
-            }
+            process.env.JWTSECRET
           );
-          User.updateOne({ email: req.body.email }, { token: token })
-            .exec()
-            .then(result => {
-              console.log('invalid3')
-              return res.status(200).json({
-                message: 'Auth successful',
-                token: token
-              });
-            })
-            .catch(err => {
-              console.log('invalid4')
-              res.status(401).json({
-                message: 'Auth failed'
-              });
-            });
-        }
-        else{
-          res.status(401).json({message:'Invalid password'})
+
+          return res.json({ token }).status(200);
         }
       });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-    
+    }
+  });
 };
-exports.getData=(req,res) => {
-  console.log("EEEEEEEEEEEEEEEEEEEEEEEE")
-  console.log(req.headers.authorization)
-  return res.status(200).json({message:ok});
- }
 /**
 * UserController verify mail
 *@memberof module:controllers/userControllers 
@@ -431,32 +259,6 @@ exports.userVerifyMail = (req, res, next) => {
   }
 };
 /**
-* UserController delete User
-*@memberof module:controllers/userControllers
-*@function userDelete
-*@param {function} checkAuth           Function for validate authenticate
-*@param {object}  req                  Express request object
-*@param {string}  req.params.id        search by user ID 
-*@param {object}  res 
-*@param {status}  res.status       if error  it returns status of 500/ if success it returns status of 200 
-*@param {string}  res.message      the type of error /User deleted
- */
-exports.userDelete = (req, res, next) => {
-  User.remove({ _id: req.params.id })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: 'User deleted'
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-};
-/**
 * UserController  User logout
 *@memberof module:controllers/userControllers
 *@function userLogout
@@ -468,23 +270,7 @@ exports.userDelete = (req, res, next) => {
 *@param {string}  res.message      the type of error /User deleted
  */
 exports.userLogout = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.decode(token);
-  console.log(decoded._id);
-  User.updateOne({ _id: decoded._id }, { token: null })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: 'logging out success'
-      });
-      //  rand.remove({userID: rand.userId });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
+
 };
 /**
 * UserController  check mail exists before
@@ -497,117 +283,24 @@ exports.userLogout = (req, res, next) => {
 *@param {string}  res.message      erorr Mail exists/ or success
  */
 exports.userMailExist = function MailExist(req, res, next) {
-  User.find({ email: req.params.mail })
-    .exec()
-    .then(user => {
-      if (user.length >= 1) {
-        return res.status(409).json({
-          message: 'Mail exists'
-        });
-      } else {
-        return res.status(200).json({
-          message: 'success'
-        });
+  let selector = {}
+  selector['email'] = req.body.email;
+  db_users.find({ 'selector': selector }, (err, documents) => {
+    if (err) {
+      console.log('Error occurred: ' + err.message, 'create()');
+      return res.status(401).json({ message: 'failed' });
+    } else {
+      console.log(documents.docs.length);
+      if(documents.docs.length > 0){
+        return res.status(409).json({message: 'Mail exists'});
       }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-};
-/**
-* UserController  User change password
-*@memberof module:controllers/userControllers
-*@function userChangePassword 
-*@param {function} checkAuth           Function for validate authenticate
-*@param {function} changePassword      Function for validate new password
-*@param {object}  req                  Express request object
-*@param {string}  req.headers.authorization     search by userId which in the token
-*@param {string}  req.body.oldPassword         search by user password
-*@param {string}  req.body.newPassword           user new password
-*@param {string}  req.body.confirmedPassword     user confirmed password
-*@param {object}  res 
-*@param {status}  res.status       if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message      the type of error /You change password successfly
- */
-exports.userChangePassword = (req, res, next) => {
-  const { error } = changePassword(req.body)
-  if (error)
-    return res.status(400).send({ msg: error.details[0].message });
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.decode(token);
-  console.log(decoded._id);
-  User.findOne({ _id: decoded._id })
-    .exec()
-    .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: 'user is not exists'
-        });
+      else{
+        return res.status(200).json({message: 'success'});
       }
-      bcrypt.compare(req.body.oldPassword, user.password, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: 'Enter correct old password'
-          });
-        }
-        if (result) {
-          if (req.body.newPassword != req.body.oldPassword) {
-            if (req.body.newPassword == req.body.confirmedPassword) {
-              bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
-                if (err) {
-                  return res.status(500).json({
-                    error: err
-                  });
-                }
-                else {
-                  User
-                    .updateOne({ _id: decoded._id }, { password: hash })
-                    .exec()
-                    .then(result => {
-                      res.status(200).json({
-                        message: 'You change password successfly'
-                      });
-                    })
-                    .catch(err => {
-                      console.log(err);
-                      res.status(500).json({
-                        error: err
-                      });
-                    });
-                }
-              });
-            } else {
-              return res.status(401).json({
-                message: 'Please confirm the New password'
-              });
-            }
-          } else {
-            return res.status(401).json({
-              message: 'Please enter anthor new password'
-            });
-          }
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-};
-var url = require('url');
-
-function fullUrl(req) {
-  return url.format({
-    protocol: req.protocol,
-    host: req.get('host'),
-    pathname: req.originalUrl
+    } 
   });
-}
+};
+
 /**
 * UserController  User forget password
 *@memberof module:controllers/userControllers
@@ -619,15 +312,15 @@ function fullUrl(req) {
 *@param {string}  res.message              the type of error /send msg successfuly
  */
 
-exports.userForgetPassword = async(req, res, next) => {
+exports.userForgetPassword = async (req, res, next) => {
   console.log(req.params.mail)
   const host = req.hostname;
-  const port=req.port;
+  const port = req.port;
   console.log(host);
   User
     .findOne({ email: req.params.mail })
     .exec()
-    .then(async(user)=>{
+    .then(async (user) => {
       if (user.length < 1) {
         return res.status(401).json({
           message: 'The Mail doesnot Exist'
@@ -772,59 +465,5 @@ exports.userResetPassword = (req, res, next) => {
       message: 'Domain doesnot Match'
     });
   }
-};
-/**
-* UserController  User change to premuim 
-*@memberof module:controllers/userControllers
-*@function userIsPremuim 
-*@param {function} checkAuth           Function for validate authenticate
-*@param {object}  req                  Express request object
-*@param {string}  req.headers.authorization        search by user ID  which in the token
-*@param {object}  res 
-*@param {status}  res.status       if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message      the type of error /User is now Premuim
- */
-exports.userIsPremuim = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.decode(token);
-  console.log(decoded._id);
-  User.updateOne({ _id: decoded._id }, { isPremium: true })
-    .exec()
-    .then(result => {
-      User
-        .findOne({ _id: decoded._id })
-        .exec()
-        .then(user => {
-          mailOptions = {
-            from: 'Do Not Reply ' + process.env.MAESTROEMAIL,
-            to: user.email,//put user email
-            subject: "Premuim Subscribe",
-            html: "Hello.<br> Congratulations! You just have turned to our premuim subscribe <br>"
-          }
-          console.log(mailOptions);
-          smtpTransport.sendMail(mailOptions, function (error, response) {
-            if (error) {
-              console.log(error);
-              return res.status(500).send({ msg: 'Unable to send Email' });
-            }
-            else {
-              res.status(200).json({
-                message: "User is now Premuim"
-              });
-            }
-          });
-        })
-        .catch(err => {
-          res.status(401).json({
-            message: 'User isnot find'
-          });
-        });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
 };
 
