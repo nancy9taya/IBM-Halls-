@@ -242,30 +242,37 @@ exports.userVerifyMail = (req, res, next) => {
           return res.status(404).json({ message: 'The random hash doesnot Exist' });
         }
         else {
-          db_users.get(documents.docs[0].userId, (err, document) => {
+          var user_id = documents.docs[0].userId;
+          db_randhashes.destroy(documents.docs[0]._id, documents.docs[0]._rev, (err) => {
             if (err) {
               return res.status(404).json({ message: 'The User doesnot Exist' });
             } else {
-              console.log(document);
-              let item = {
-                _id: document._id,
-                _rev: document._rev,
-                name: document.name,
-                email: document.email,
-                password: document.password,
-                birthDate: document.birthDate,
-                gender: document.gender,
-                facebook: document.facebook,
-                loggedByFb: document.loggedByFb,
-                createdAt: document.createdAt
-              }
-              item["active"] = true;
-              db_users.insert(item, (err, result) => {
+              db_users.get(user_id, (err, document) => {
                 if (err) {
-                  console.log('Error occurred: ' + err.message, 'create()');
-                  return res.status(404).json({ message: 'failed' });
+                  return res.status(404).json({ message: 'The User doesnot Exist' });
                 } else {
-                  return res.status(200).json({ message: 'success' });
+                  console.log(document);
+                  let item = {
+                    _id: document._id,
+                    _rev: document._rev,
+                    name: document.name,
+                    email: document.email,
+                    password: document.password,
+                    birthDate: document.birthDate,
+                    gender: document.gender,
+                    facebook: document.facebook,
+                    loggedByFb: document.loggedByFb,
+                    createdAt: document.createdAt
+                  }
+                  item["active"] = true;
+                  db_users.insert(item, (err, result) => {
+                    if (err) {
+                      console.log('Error occurred: ' + err.message, 'create()');
+                      return res.status(404).json({ message: 'failed' });
+                    } else {
+                      return res.status(200).json({ message: 'success' });
+                    }
+                  });
                 }
               });
             }
@@ -413,56 +420,63 @@ exports.userResetPassword = (req, res, next) => {
                 });
               }
               else {
-                db_users.get(documents.docs[0].userId, (err, document) => {
+                var user_id = documents.docs[0].userId;
+                //destroy hash 
+                db_randhashes.destroy(documents.docs[0]._id, documents.docs[0]._rev, (err) => {
                   if (err) {
                     return res.status(404).json({ message: 'The User doesnot Exist' });
                   } else {
-                    console.log(document);
-                    let item = {
-                      _id: document._id,
-                      _rev: document._rev,
-                      name: document.name,
-                      email: document.email,
-                      birthDate: document.birthDate,
-                      gender: document.gender,
-                      facebook: document.facebook,
-                      loggedByFb: document.loggedByFb,
-                      createdAt: document.createdAt,
-                      active: document.active
-                    }
-                    item["password"] = hash;
-                    db_users.insert(item, (err, result) => {
+                    db_users.get(user_id, (err, document) => {
                       if (err) {
-                        console.log('Error occurred: ' + err.message, 'create()');
-                        return res.status(404).json({ message: 'failed' });
+                        return res.status(404).json({ message: 'The User doesnot Exist' });
                       } else {
-                        mailOptions = {
-                          from: 'Do Not Reply ' + process.env.HALLEMAIL,
-                          to: item.email,//put user email
-                          subject: "Confirm Reset Password",
-                          html: "Hello.<br>You just have changed your password <br>"
+                        console.log(document);
+                        let item = {
+                          _id: document._id,
+                          _rev: document._rev,
+                          name: document.name,
+                          email: document.email,
+                          birthDate: document.birthDate,
+                          gender: document.gender,
+                          facebook: document.facebook,
+                          loggedByFb: document.loggedByFb,
+                          createdAt: document.createdAt,
+                          active: document.active
                         }
-                        console.log(mailOptions);
-                        smtpTransport.sendMail(mailOptions, function (error, response) {
-                          if (error) {
-                            console.log(error);
-                            return res.status(500).send({ msg: 'Unable to send Email' });
-                          }
-                          else {
-                            const token = jwt.sign(
-                              {
-                                _id: documents.docs[0]._id
-                              },
-                              process.env.JWTSECRET
-                            );
-                            return res.status(200).json({ message: 'You reset password successfly', token: token });
+                        item["password"] = hash;
+                        db_users.insert(item, (err, result) => {
+                          if (err) {
+                            console.log('Error occurred: ' + err.message, 'create()');
+                            return res.status(404).json({ message: 'failed' });
+                          } else {
+                            mailOptions = {
+                              from: 'Do Not Reply ' + process.env.HALLEMAIL,
+                              to: item.email,//put user email
+                              subject: "Confirm Reset Password",
+                              html: "Hello.<br>You just have changed your password <br>"
+                            }
+                            console.log(mailOptions);
+                            smtpTransport.sendMail(mailOptions, function (error, response) {
+                              if (error) {
+                                console.log(error);
+                                return res.status(500).send({ msg: 'Unable to send Email' });
+                              }
+                              else {
+                                const token = jwt.sign(
+                                  {
+                                    _id: documents.docs[0]._id
+                                  },
+                                  process.env.JWTSECRET
+                                );
+                                return res.status(200).json({ message: 'You reset password successfly', token: token });
+                              }
+                            });
                           }
                         });
                       }
                     });
                   }
                 });
-
               }
             });
 
