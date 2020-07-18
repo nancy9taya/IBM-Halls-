@@ -6,10 +6,12 @@ import{Router} from '@angular/router'
   providedIn: 'root'
 })
 export class AuthService {
-  private _loginUrl="http://localhost:3000/user/login";
-  private _signUpUrl="http://localhost:3000/user/signup"
-  private _verifyUrl="http://localhost:3000/user/forgetPassword/";
-  private _resetPassUrl="http://localhost:3000/user/resetPassword"
+  private baseUrl="http://localhost:3000"
+  private _loginUrl=this.baseUrl+"/user/login";
+  private _signUpUrl=this.baseUrl+"/user/signup"
+  private _verifyUrl=this.baseUrl+"/user/forgetPassword/";
+  private _resetPassUrl=this.baseUrl+"/user/resetPassword";
+  private _isMailExist=this.baseUrl+"/user/mailExist";
   constructor(private http:HttpClient,private _router:Router) { }
 
 
@@ -48,6 +50,10 @@ export class AuthService {
   logOut(){
     localStorage.removeItem('token');
     this._router.navigate(['']);
+
+  }
+  isMailExist(mail){
+    return this.http.get<any>(this._isMailExist+"/"+mail)
 
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {FormBuilder,FormGroup, Validators} from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
-import {AuthService} from '../auth.service'
 
 
 @Component({
@@ -17,8 +16,7 @@ export class FormDataComponent implements OnInit {
   titleAlert:string="This field is required";
   message:string="please enter a positive number";
   // public isLogged;
-  constructor(private http:HttpClient,private fb:FormBuilder
-    ,public _authService:AuthService ) { }
+  constructor(private http:HttpClient,private fb:FormBuilder ) { }
 
   ngOnInit(): void {
     

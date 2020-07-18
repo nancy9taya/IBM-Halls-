@@ -17,10 +17,10 @@
         <div class="alert invalidPassword" *ngIf="!isValidPass" >
             this password is invalid
         </div>
-        <a routerLink="/forgetpass" class="forgetPass">Forgot Your Password?</a>
+        <a href="#" class="forgetPass">Forgot Your Password?</a>
         <p> <span><input type="checkbox"></span>Remember me</p>
         <input type="submit" class="leftBtn" value="Sign In" [disabled]="!rForm.valid">
-        <a routerLink="/signup" class="createAccount">Create an account</a>
+        <a routerLink="/signup" class="createAccount" onclick="reDirectSgnUp()">Create an account</a>
         </form>
     </div>
     <div class="split right">

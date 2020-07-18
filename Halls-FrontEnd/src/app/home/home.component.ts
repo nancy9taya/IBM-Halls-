@@ -28,25 +28,25 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // var left = document.querySelector(".left");
-    // var right = document.querySelector(".right");
-    // var container = document.querySelector(".container");
-    // left.addEventListener("mouseenter", function () {
-    //     console.log("LeftMouseEnter");
-    //     container.classList.add("hover-left");
-    // });
-    // left.addEventListener("mouseleave", function () {
-    //     console.log("LeftMouseEnter");
-    //     container.classList.remove("hover-left");
-    // });
-    // right.addEventListener("mouseenter", function () {
-    //     console.log("RightMouseEnter");
-    //     container.classList.add("hover-right");
-    // });
-    // right.addEventListener("mouseleave", function () {
-    //     console.log("RightMouseLeave");
-    //     container.classList.remove("hover-right");
-    // });
+    var left = document.querySelector(".left");
+    var right = document.querySelector(".right");
+    var container = document.querySelector(".container");
+    left.addEventListener("mouseenter", function () {
+        console.log("LeftMouseEnter");
+        container.classList.add("hover-left");
+    });
+    left.addEventListener("mouseleave", function () {
+        console.log("LeftMouseEnter");
+        container.classList.remove("hover-left");
+    });
+    right.addEventListener("mouseenter", function () {
+        console.log("RightMouseEnter");
+        container.classList.add("hover-right");
+    });
+    right.addEventListener("mouseleave", function () {
+        console.log("RightMouseLeave");
+        container.classList.remove("hover-right");
+    });
 
   }
   focusIn(event: FocusEvent) {

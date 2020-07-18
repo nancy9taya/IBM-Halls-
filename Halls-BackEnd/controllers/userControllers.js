@@ -599,15 +599,6 @@ exports.userChangePassword = (req, res, next) => {
       });
     });
 };
-var url = require('url');
-
-function fullUrl(req) {
-  return url.format({
-    protocol: req.protocol,
-    host: req.get('host'),
-    pathname: req.originalUrl
-  });
-}
 /**
 * UserController  User forget password
 *@memberof module:controllers/userControllers
@@ -619,15 +610,14 @@ function fullUrl(req) {
 *@param {string}  res.message              the type of error /send msg successfuly
  */
 
-exports.userForgetPassword = async(req, res, next) => {
+exports.userForgetPassword = (req, res, next) => {
   console.log(req.params.mail)
   const host = req.hostname;
-  const port=req.port;
   console.log(host);
   User
     .findOne({ email: req.params.mail })
     .exec()
-    .then(async(user)=>{
+    .then(user => {
       if (user.length < 1) {
         return res.status(401).json({
           message: 'The Mail doesnot Exist'
@@ -641,20 +631,19 @@ exports.userForgetPassword = async(req, res, next) => {
       rand.userId = user._id;
       console.log(rand.userId)
       console.log(rand.randNo)
-      await rand.save();
+      rand.save().then().catch();
 
-      const link = "http://localhost:4200/resetpass?id=" + rand.randNo;
+      const link = "http://" + host + "/user/resetPassword?id=" + rand.randNo;
       mailOptions = {
         from: 'Do Not Reply ' + process.env.MAESTROEMAIL,
         to: user.email,//put user email
         subject: "Reset your password",
-        html: "Hello.<br>No need to worry, you can reset your Halls password by clicking the link below:<br><a href=" + link + ">Reset password</a><br1>   Your username is:" + user._id + "</br1> </br2>  If you didn't request a password reset, feel free to delete this email</br2>"
+        html: "Hello.<br>No need to worry, you can reset your Maestro password by clicking the link below:<br><a href=" + link + ">Reset password</a><br1>   Your username is:" + user._id + "</br1> </br2>  If you didn't request a password reset, feel free to delete this email and carry on enjoying your music!</br2>"
       }
       console.log(mailOptions);
       smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
           console.log(error);
-          console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
           return res.status(500).send({ msg: 'Unable to send Email' });
         } else {
           return res.status(201).json({ message: 'send msg successfuly' });
@@ -664,13 +653,9 @@ exports.userForgetPassword = async(req, res, next) => {
     })
     .catch(err => {
       console.log(err);
-      return res.status(401).json({
-        message: 'The Mail doesnot Exist'
+      res.status(500).json({
+        error: err
       });
-
-      // res.status().json({
-      //   error: err
-      // });
     });
 
 };
@@ -721,7 +706,6 @@ exports.userResetPassword = (req, res, next) => {
                     },
                     process.env.JWTSECRET
                   );
-                  console.log("Cameeeee Here")
                   res.status(200).json({
                     message: 'You reset password successfly',
                     token: token
@@ -761,9 +745,9 @@ exports.userResetPassword = (req, res, next) => {
         }
       })
       .catch(err => {
-        console.log("you cannot reset your password");
+        console.log("your cannot reset your password");
         res.status(401).json({
-          message: 'you cannot reset your password'
+          message: 'your cannot reset your password'
         });
       });
   }

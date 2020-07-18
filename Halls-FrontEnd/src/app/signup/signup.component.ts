@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
       'password':['',passValidator] ,
       'Repassword':[null,cnfPassValidator] 
      })
-    
+     this.signUpUrl=this.appComponent.url;
 
   }
 

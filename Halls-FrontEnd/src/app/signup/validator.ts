@@ -1,4 +1,6 @@
 import {AbstractControl,FormGroup} from '@angular/forms'
+import {AuthService} from '../auth.service'
+import {HttpClient} from '@angular/commom/http'
 
 export function passValidator(control:AbstractControl){
     if(control &&(control.value!=null || control.value!=undefined)){
@@ -41,7 +43,7 @@ export function cnfPassValidator(control:AbstractControl){
     }
 }
 
-export function emailValidator(control:AbstractControl){
+export function emailValidator(_auth:AuthService,control:AbstractControl){
     if(control &&(control.value!=null || control.value!=undefined)){
         const emailValue=control.value;
         const regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$';
@@ -51,6 +53,19 @@ export function emailValidator(control:AbstractControl){
                 isError:true
             };
         }
+        //check if mail exist before
+        _auth.isMailExist(emailValue).subscribe(res=>{
+            if(res.existOrNot===false){
+                return{
+                    isError:true
+                }
+            }
+        },err=>{
+            return{
+                isError:true
+            }
+        })
+
     }
     return null;
 }

@@ -17,9 +17,7 @@ import {AuthService} from './auth.service'
 import {SidebarModule} from "ng-sidebar"
 import {MaterialModule} from './material/material.module'
 import {AuthGuard} from './auth.guard'
-import {TokenInterceptorService} from './token-interceptor.service';
-import { ForgetPassComponent } from './forgetpass/forgetpass.component';
-import { ResetpassComponent } from './resetpass/resetpass.component'
+import {TokenInterceptorService} from './token-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -27,9 +25,7 @@ import { ResetpassComponent } from './resetpass/resetpass.component'
     routingComponents,
     SignupComponent,
     HomeComponent,
-    FormDataComponent,
-    ForgetPassComponent,
-    ResetpassComponent
+    FormDataComponent
     // TestComponent
   ],
   imports: [

@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 4200; 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/src'));
 //app.use(bodyParser.urlencoded({extend:true}));
@@ -16,3 +16,23 @@ app.get('/', (req, res) => {
 app.listen(port);
 console.log(`App listening on port ${port}`);
 console.log('Press Ctrl+C to quit.');
+
+// const env = require('dotenv').config();
+// const express = require('express');
+// const app = express();
+// const port = process.env.PORT || 4200; 
+// app.set('view engine', 'pug');
+
+// app.use(express.static(__dirname + '/src'));
+
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
+
+// // Start the server
+// const PORT = 4200;
+// app.listen(PORT, () => {
+//   console.log(`App listening on port ${PORT}`);
+//   console.log('Press Ctrl+C to quit.');
+// });
+
