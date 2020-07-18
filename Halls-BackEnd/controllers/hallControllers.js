@@ -227,7 +227,7 @@ exports.distributionAlgo = (req, res, next) => {
   // console.log(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
     output_distribution = fixed_algorithims(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
     const hall = new Hall({
-        _id: uuidv4(),
+        _id: new mongoose.Types.ObjectId(),
         rows: req.body.rows,
         columns: req.body.columns,
         chairLength: req.body.chairLength,

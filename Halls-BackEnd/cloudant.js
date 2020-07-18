@@ -5,9 +5,11 @@ var cloudant = Cloudant({ url: process.env.my_url, plugins: [{ iamauth: { iamApi
 let db_user = cloudant.use('users');
 let db_hall = cloudant.use('halls');
 let db_history = cloudant.use('history');
+let db_randhash = cloudant.use('randhash');
 
 module.exports = {
     db_users: db_user,
     db_halls: db_hall,
-    db_histories: db_history
+    db_histories: db_history,
+    db_randhashes: db_randhash
 };
