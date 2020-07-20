@@ -23,7 +23,6 @@ export class ForgetPassComponent implements OnInit {
   ngOnInit(): void {
   }
   focusIn(event: FocusEvent) {
-    console.log(event.detail);
     this.isValidEmail=true;
   }
 
@@ -31,13 +30,11 @@ export class ForgetPassComponent implements OnInit {
     this._auth.forgetPassword(data).subscribe(
       res=>{
         this.mailSent=true;
-        console.log(res)
       },
       err=>{
       if(err instanceof HttpErrorResponse){
         if(err.status===401){
           this.isValidEmail=false;
-          console.log("This mail doesn't exist")
         }
       }
     

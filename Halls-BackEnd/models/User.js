@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
 const userSchema = mongoose.Schema({
-  // _id: mongoose.Schema.Types.ObjectId,
+   _id: mongoose.Schema.Types.ObjectId,
   name: {
     type: String,
     required: true
@@ -32,22 +32,6 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  isPremium :{
-    type: Boolean,
-    default: false
-  },
-  image:{
-   data: Buffer,
-   contentType: String
-  },
-  country:{
-    type: String,
-    default: 'Egypt'
-  },
-  type:{
-    type: String,
-    default: 'user'
-  },
   active:{
     type: Boolean,
     default: false
@@ -62,17 +46,9 @@ const userSchema = mongoose.Schema({
      }
 
   },
- token:{
-    type: String,
-    default: null
-  },
   loggedByFb:{
     type: Boolean,
     default: false
-  },
-  phone:{
-    type: String,
-    default: null
   }
 });
 

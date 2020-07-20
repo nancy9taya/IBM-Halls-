@@ -11,7 +11,7 @@ export class AuthService {
   private _signUpUrl=this.baseUrl+"/user/signup"
   private _verifyUrl=this.baseUrl+"/user/forgetPassword/";
   private _resetPassUrl=this.baseUrl+"/user/resetPassword";
-  private _isMailExist=this.baseUrl+"/user/mailExist";
+  private _isMailExistUrl=this.baseUrl+"/user/mailExist";
   constructor(private http:HttpClient,private _router:Router) { }
 
 
@@ -53,7 +53,9 @@ export class AuthService {
 
   }
   isMailExist(mail){
-    return this.http.get<any>(this._isMailExist+"/"+mail)
+    console.log("in auth")
+    console.log(mail)
+    return this.http.get<any>(this._isMailExistUrl+"/"+mail)
 
   }
 }

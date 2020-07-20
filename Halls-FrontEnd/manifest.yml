@@ -3,7 +3,7 @@ applications:
  - name: Halls
    random-route: true
    memory: 256M
-   buildpack: nodejs_buildpack
+   disk_quota: 256M
    env:
-    OPTIMIZE_MEMORY: true
-    #NODE_OPTIONS: --max-old-space-size=96
+    CF_STAGING_TIMEOUT: 40
+    CF_STARTUP_TIMEOUT: 10

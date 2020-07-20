@@ -225,10 +225,9 @@ exports.distributionAlgo = (req, res, next) => {
     }
     caseNo = cases(gap, benches);
   // console.log(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
-    return res.json({ message: "Done"}).status(200);
     output_distribution = fixed_algorithims(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);(caseNo, req.body.rows, req.body.columns, req.body.chairLength, req.body.chairWidth, req.body.benchesWidth, req.body.columnsThenGap, req.body.gapwidth);
     const hall = new Hall({
-        _id: uuidv4(),
+        _id: new mongoose.Types.ObjectId(),
         rows: req.body.rows,
         columns: req.body.columns,
         chairLength: req.body.chairLength,
@@ -238,7 +237,7 @@ exports.distributionAlgo = (req, res, next) => {
         gapwidth: req.body.gapwidth,
         distibution: output_distribution
     });
-    console.log(hall);
+    //console.log(hall);
     db_halls.insert(hall, (err, result) => {
         if (err) {
             console.log('Error occurred: ' + err.message, 'create()');
