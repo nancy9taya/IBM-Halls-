@@ -29,7 +29,6 @@ export class ResetpassComponent implements OnInit {
     console.log(this.id);
     this._auth.resetPassword(data,this.id).subscribe(
       res=>{
-        console.log("Responseeeeeeeeee")
         if(res.message==="You reset password successfly")
         {
           console.log("Success Reset")

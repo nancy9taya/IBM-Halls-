@@ -16,7 +16,6 @@ export class FormDataComponent implements OnInit {
   showhidepregnant: boolean=true;
   titleAlert:string="This field is required";
   message:string="please enter a positive number";
-  // public isLogged;
   constructor(private http:HttpClient,private fb:FormBuilder
     ,public _authService:AuthService ) { }
 
