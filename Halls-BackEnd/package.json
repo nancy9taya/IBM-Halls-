@@ -46,10 +46,10 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-http": "^1.0.0"
+    "chai-http": "^4.3.0"
   },
   "scripts": {
-    "front" : "nodemon ser",
+    "front": "nodemon ser",
     "start": "node --trace-gc server.js",
     "app": "nodemon cloudant",
     "watch": "nodemon server",

@@ -26,7 +26,8 @@ export class FormDataComponent implements OnInit {
       colsCnt:['',Validators.required],
       lenChair:['',Validators.required],
       widChair:['',Validators.required],
-      isBench:['',Validators.required]
+      isBench:['',Validators.required],
+      isGap:['',Validators.required]
     })
     this.myForm.valueChanges.subscribe(console.log);
 

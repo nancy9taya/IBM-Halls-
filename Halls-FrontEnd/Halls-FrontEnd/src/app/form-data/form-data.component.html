@@ -72,6 +72,26 @@
             </div>
          </div>
 
+         <label>Is there a gap between columns?</label>
+         <br>
+
+         <mat-radio-group >
+            <mat-radio-button (change)="gapExist" #gapExist value="1">Yes</mat-radio-button> 
+            <br>
+            <mat-radio-button value="2"> No</mat-radio-button>    
+         </mat-radio-group>
+
+         <div *ngIf="gapExist.checked">
+            <br>
+            <label for="">please enter after how many columns appears the gap</label>
+            <mat-form-field>
+               <input matInput placeholder="number of columns that gap appears after it" formControlName="isGap">
+            </mat-form-field>
+            <div class="alert" *ngIf="!myForm.controls['isGap'].valid && myForm.controls['isGap'].touched">
+               {{titleAlert}}
+            </div>
+         </div>
+
          <input type="submit" class="button expanded" value="Submit" [disabled]="!myForm.valid">
 
       </div> 
