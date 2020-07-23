@@ -22,10 +22,10 @@ export class AuthService {
     return this.http.post<any>(this._signUpUrl,{
         name:user.name,
         email:user.email,
-        password: user.password,
-        birthDate:"2000-07-05",
-        gender:"false",
-        type:"free"})
+        password: user.password})
+        // birthDate:"2000-07-05",
+        // gender:"false",
+        // type:"free"})
   }
   forgetPassword(user){
     const url=this._verifyUrl+user.email;

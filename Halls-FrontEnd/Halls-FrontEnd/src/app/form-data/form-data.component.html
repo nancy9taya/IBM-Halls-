@@ -36,7 +36,7 @@
          <label class="chair" for="">Chair dimensions</label>
          <hr>
 
-         <label for="" >Enter length of the chair</label>
+         <label for="" >Enter length of the chair in the centimeters</label>
          <mat-form-field>
             <input matInput placeholder={{message}} formControlName="lenChair">
          </mat-form-field>
@@ -44,7 +44,7 @@
             {{titleAlert}}
          </div>
 
-         <label for="" >Enter width of the chair</label>
+         <label for="" >Enter width of the chair in the centimeters</label>
          <mat-form-field>
             <input matInput placeholder={{message}} formControlName="widChair">
          </mat-form-field>
@@ -55,44 +55,46 @@
          <label>Is there a bench infront of chairs?</label>
          <br>
 
-         <mat-radio-group >
-            <mat-radio-button (change)="register" #register value="1">Yes</mat-radio-button> 
+         <mat-radio-group formControlName="benchRadio">
+            <mat-radio-button (change)="check($event.value)" id="yesBench" #register value="yes">Yes</mat-radio-button> 
             <br>
-            <mat-radio-button value="2"> No</mat-radio-button>    
+            <mat-radio-button (change)="check($event.value)" id="noBench" value="no"> No</mat-radio-button>    
          </mat-radio-group>
 
          <div *ngIf="register.checked">
             <br>
-            <label for="">please enter the width of bench</label>
+            <label for="">please enter the width of bench in the centimeters</label>
             <mat-form-field>
-               <input matInput placeholder="width of bench" formControlName="isBench">
+               <input matInput (keyup)="checkValue()" [(ngModel)]="widBench" placeholder="width of bench" formControlName="isBenchClicked">
             </mat-form-field>
-            <div class="alert" *ngIf="!myForm.controls['isBench'].valid && myForm.controls['isBench'].touched">
+            <div class="alert" *ngIf="!validBench && myForm.controls['isBenchClicked'].touched">
                {{titleAlert}}
             </div>
          </div>
+         <br>
+         <br>
 
          <label>Is there a gap between columns?</label>
          <br>
 
-         <mat-radio-group >
-            <mat-radio-button (change)="gapExist" #gapExist value="1">Yes</mat-radio-button> 
+         <mat-radio-group formControlName="gapRadio">
+            <mat-radio-button (change)="checkGap($event.value)" #gapExist value="yes">Yes</mat-radio-button> 
             <br>
-            <mat-radio-button value="2"> No</mat-radio-button>    
+            <mat-radio-button (change)="checkGap($event.value)" value="no"> No</mat-radio-button>    
          </mat-radio-group>
 
          <div *ngIf="gapExist.checked">
             <br>
             <label for="">please enter after how many columns appears the gap</label>
             <mat-form-field>
-               <input matInput placeholder="number of columns that gap appears after it" formControlName="isGap">
+               <input matInput (keyup)="checkValueGap()" placeholder="number of columns" [(ngModel)]="numGap" formControlName="isGapClicked">
             </mat-form-field>
-            <div class="alert" *ngIf="!myForm.controls['isGap'].valid && myForm.controls['isGap'].touched">
+            <div class="alert" *ngIf="!validGap&& myForm.controls['isGapClicked'].touched">
                {{titleAlert}}
             </div>
          </div>
 
-         <input type="submit" class="button expanded" value="Submit" [disabled]="!myForm.valid">
+         <input type="submit" class="button expanded" value="Submit" [disabled]="!myForm.valid||!validBench || !validGap">
 
       </div> 
    </form>

@@ -24,14 +24,14 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
- birthDate:{
-    type: Date,
-    required: true
-  },
-  gender:{
-    type: Boolean,
-    required: true
-  },
+//  birthDate:{
+//     type: Date,
+//     required: true
+//   },
+//   gender:{
+//     type: Boolean,
+//     required: true
+//   },
   active:{
     type: Boolean,
     default: false

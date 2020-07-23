@@ -37,13 +37,9 @@ function joiValidate(req) {
     email:
       Joi.string().email().lowercase().required(),
     password:
-      Joi.string().min(8).max(80).alphanum().required(),
+      Joi.string().min(8).max(80).required(),
     name:
       Joi.string().min(3).max(30).required(),
-    birthDate:
-      Joi.date().required().min('1-1-1900').iso(),
-    gender:
-      Joi.boolean().required()
   }
   return Joi.validate(req, schema);
 };
@@ -115,8 +111,9 @@ const smtpTransport = nodemailer.createTransport({
  */
 exports.userSignup = async function (req, res, next) {
   const { error } = joiValidate(req.body)
-  if (error)
+  if (error){
     return res.status(400).send({ message: error.details[0].message });
+  }
   bcrypt.hash(req.body.password, 10, async (err, hash) => {
     if (err) {
       return res.status(500).json({
@@ -133,7 +130,6 @@ exports.userSignup = async function (req, res, next) {
         subject: "Please confirm your Email account",
         html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + link + ">Click here to verify</a>"
       }
-      //console.log(mailOptions);
       smtpTransport.sendMail(mailOptions, async function (error, response) {
         if (error) {
           console.log(error);
@@ -141,12 +137,10 @@ exports.userSignup = async function (req, res, next) {
 
         } else {
           const user = new User({
-            _id: new mongoose.Types.ObjectId(),//uuidv4(),
+            _id: new mongoose.Types.ObjectId(),
             name: req.body.name,
             email: req.body.email,
-            password: hash,
-            birthDate: req.body.birthDate,
-            gender: req.body.gender
+            password: hash
           });
           rand.userId = user._id;
           db_randhashes.insert(rand, (err, result) => {
@@ -312,8 +306,10 @@ exports.userLogout = (req, res, next) => {
  */
 exports.userMailExist = function MailExist(req, res, next) {
   let selector = {}
-  selector['email'] = req.body.email;
+  selector['email'] = req.params.mail;
+  console.log(selector)
   db_users.find({ 'selector': selector }, (err, documents) => {
+    console.log(documents)
     if (err) {
       console.log('Error occurred: ' + err.message, 'create()');
       return res.status(401).json({ message: 'failed' });

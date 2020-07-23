@@ -19,7 +19,8 @@ import {MaterialModule} from './material/material.module'
 import {AuthGuard} from './auth.guard'
 import {TokenInterceptorService} from './token-interceptor.service';
 import { ForgetPassComponent } from './forgetpass/forgetpass.component';
-import { ResetpassComponent } from './resetpass/resetpass.component'
+import { ResetpassComponent } from './resetpass/resetpass.component';
+import { ResultComponent } from './result/result.component'
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ResetpassComponent } from './resetpass/resetpass.component'
     HomeComponent,
     FormDataComponent,
     ForgetPassComponent,
-    ResetpassComponent
+    ResetpassComponent,
+    ResultComponent
     // TestComponent
   ],
   imports: [
