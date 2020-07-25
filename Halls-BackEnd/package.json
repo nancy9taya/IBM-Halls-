@@ -50,7 +50,7 @@
   },
   "scripts": {
     "front": "nodemon ser",
-    "start": "node --trace-gc server.js",
+    "start": "node server.js",
     "app": "nodemon cloudant",
     "watch": "nodemon server",
     "test": "mocha --timeout 720000",

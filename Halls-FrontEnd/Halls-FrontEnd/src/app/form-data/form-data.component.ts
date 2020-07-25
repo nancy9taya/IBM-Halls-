@@ -3,6 +3,7 @@ import {FormBuilder,FormGroup, Validators} from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import {AuthService} from '../auth.service'
 import {Router}      from '@angular/router'
+import {numValidator} from './validators'
 import {AbstractControl} from '@angular/forms'
 
 
@@ -31,12 +32,12 @@ export class FormDataComponent implements OnInit {
   ngOnInit(): void {
     
     this.myForm=this.fb.group({
-      rowsCnt:['',Validators.required],
-      colsCnt:['',Validators.required],
-      lenChair:['',Validators.required],
-      widChair:['',Validators.required],
-      benchRadio:['',Validators.required],
-      gapRadio:['',Validators.required],
+      rowsCnt:['',[Validators.required,numValidator]],
+      colsCnt:['',[Validators.required,numValidator]],
+      lenChair:['',[Validators.required,numValidator]],
+      widChair:['',[Validators.required,numValidator]],
+      benchRadio:['',[Validators.required,numValidator]],
+      gapRadio:['',[Validators.required,numValidator]],
       isBenchClicked:[''],
       isGapClicked:[''],
     })
@@ -46,7 +47,7 @@ export class FormDataComponent implements OnInit {
     
   submit(data):void{
     console.log(data)
-    this.http.get<any>('http://localhost:3000/FormData')
+    this.http.get<any>(this._authService.baseUrl+'/FormData')
     .subscribe(data=>{
       console.log("Response\n"+data.message+"\n"+data.token);
       console.log("Should be done")

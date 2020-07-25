@@ -43,7 +43,17 @@
   app.use(morgan("dev"));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(cors());
+  // app.use(cors());
+
+  const corsOptions = {
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    preflightContinue: true,
+    maxAge: 600,
+  };
+  app.options('*', cors(corsOptions));
+  app.use(cors(corsOptions));
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

@@ -53,13 +53,23 @@ export class SignupComponent implements OnInit {
     if(this.email!=undefined&&this.email!=null){
       var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       const isMatched=this.email.match(regex);
-      console.log("isMatched"+isMatched)
+      // console.log("isMatched"+isMatched)
       if(isMatched!=null){
+        console.log("Request Sent Mail Exist")
         this._auth.isMailExist(this.email).subscribe(res=>{
+          console.log("IN RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+          console.log(res)
+          if(res.message==="success"){
+            this.MailExist=false;
+            console.log(this.MailExist)
+          }
         },
         err=>{
-          if(err.status===409)
+          if(err.status===409){
           this.MailExist=true;
+          console.log(this.MailExist)
+          }
+
         })
       }
     }
