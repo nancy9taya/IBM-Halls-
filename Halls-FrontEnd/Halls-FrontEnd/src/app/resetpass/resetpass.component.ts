@@ -3,6 +3,7 @@ import {FormGroup,FormBuilder} from '@angular/forms'
 import {passValidator,cnfPassValidator} from '../signup/validator'
 import {AuthService} from '../auth.service'
 import { ActivatedRoute } from '@angular/router';
+import {Router} from '@angular/router'
 @Component({
   selector: 'app-resetpass',
   templateUrl: './resetpass.component.html',
@@ -13,7 +14,7 @@ export class ResetpassComponent implements OnInit {
   failedReset:boolean=false;
   rForm:FormGroup;
   private id:string;
-  constructor(private fb:FormBuilder,private _auth:AuthService,private route:ActivatedRoute) {
+  constructor(private fb:FormBuilder,private _auth:AuthService,private route:ActivatedRoute,private router:Router) {
     this.rForm=fb.group({
       'password':['',passValidator] ,
       'Repassword':[null,cnfPassValidator] 
@@ -41,6 +42,9 @@ export class ResetpassComponent implements OnInit {
       }
     )
     console.log(data);
+  }
+  onClick(){
+    this.router.navigate(['/FormData'])
   }
 
 }
