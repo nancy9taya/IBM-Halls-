@@ -1,3 +1,4 @@
+
 const env = require('dotenv').config();
 var Cloudant = require('@cloudant/cloudant');
 var cloudant = Cloudant({ url: process.env.my_url, plugins: [{ iamauth: { iamApiKey: process.env.my_iamApiKey, autoRenew: false } }] });

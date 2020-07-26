@@ -72,7 +72,6 @@ function randGenerator() {
 }
 
 
-
 const smtpTransport = nodemailer.createTransport({
   service: 'gmail',
   port: 8000,
@@ -99,6 +98,7 @@ const smtpTransport = nodemailer.createTransport({
 *@param {token}   res.token   it returns token if user sigup successfully
  */
 exports.userSignup = async function (req, res, next) {
+
   const { error } = joiValidate(req.body)
   if (error){
     return res.status(400).send({ message: error.details[0].message });
@@ -125,10 +125,11 @@ exports.userSignup = async function (req, res, next) {
           return res.status(500).send({ msg: 'Unable to send email' });
 
         } else {
+          let mail=req.body.email.toLowerCase();
           const user = new User({
             _id: new mongoose.Types.ObjectId(),
             name: req.body.name,
-            email: req.body.email,
+            email: mail,
             password: hash
           });
           rand.userId = user._id;
@@ -173,7 +174,8 @@ exports.userSignup = async function (req, res, next) {
 
 exports.userLogin = (req, res, next) => {
   let selector = {}
-  selector['email'] = req.body.email;
+  let email=req.body.email.toLowerCase();
+  selector['email'] = email;
   db_users.find({ 'selector': selector }, (err, documents) => {
     if (err) {
       console.log('Error occurred: ' + err.message, 'create()');
@@ -295,7 +297,8 @@ exports.userLogout = (req, res, next) => {
  */
 exports.userMailExist = function MailExist(req, res, next) {
   let selector = {}
-  selector['email'] = req.params.mail;
+  const mail=req.params.mail.toLowerCase();
+  selector['email'] = mail;
   console.log(selector)
   db_users.find({ 'selector': selector }, (err, documents) => {
     console.log(documents)
@@ -329,7 +332,8 @@ exports.userForgetPassword = async (req, res, next) => {
   const host = req.hostname;
   const port = req.port;
   let selector = {}
-  selector['email'] = req.params.mail;
+  const mail=req.params.mail.toLowerCase();
+  selector['email'] = mail;
   db_users.find({ 'selector': selector }, (err, documents) => {
     if (err) {
       console.log('Error occurred: ' + err.message, 'create()');
@@ -344,7 +348,7 @@ exports.userForgetPassword = async (req, res, next) => {
           console.log('Error occurred: ' + err.message, 'create()');
           return res.status(500).json({ message: 'faild' });
         } else {
-          const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/resetpass?id=" + rand.randNo;
+          const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
           mailOptions = {
             from: 'Do Not Reply ' + process.env.HALLEMAIL,
             to: documents.docs[0].email,//put user email

@@ -29,9 +29,8 @@
 
   app.use("/user", userRoutes);
   app.use("/hall",hallRoutes);
- // app.use('/FormData',userRoutes)
 
-  
+
   app.use((req, res, next) => {
     const error = new Error("Not found");
     error.status = 404;

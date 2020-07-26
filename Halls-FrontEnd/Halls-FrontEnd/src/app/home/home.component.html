@@ -18,7 +18,7 @@
             this password is invalid
         </div>
         <a routerLink="/forgetpass" class="forgetPass">Forgot Your Password?</a>
-        <p> <span><input type="checkbox"></span>Remember me</p>
+        <p> <span><input id="rememberMe" type="checkbox"></span>Remember me</p>
         <input type="submit" class="leftBtn" value="Sign In" [disabled]="!rForm.valid">
         <a routerLink="/signup" class="createAccount">Create an account</a>
         </form>

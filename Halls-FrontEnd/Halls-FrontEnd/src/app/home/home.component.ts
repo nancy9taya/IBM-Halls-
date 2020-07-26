@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit {
   constructor(private _auth:AuthService,private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder,private router:Router) { 
     this.rForm=fb.group({
       'email':['',Validators.required] ,
-      'password':['',Validators.required]
+      'password':['',Validators.required],
+      'rememberMe':['']
      })
   }
 

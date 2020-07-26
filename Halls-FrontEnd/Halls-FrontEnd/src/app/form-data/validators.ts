@@ -1,12 +1,15 @@
 import {AbstractControl} from '@angular/forms'
 
-export function benchValidator(control:AbstractControl){
+export function numValidator(control:AbstractControl){
     if(this.isBench){
         if(control.value==null || control.value==undefined){
-            return {
-                isError:true
-            };
+            if(control.value<=0){
+                return {
+                    isError:true
+                };
+            }
         }
     }
     return null
 }
+
