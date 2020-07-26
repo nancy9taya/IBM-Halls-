@@ -42,27 +42,27 @@ It's imperative that learning in universities, also the films in cinemas can con
 
 Here if you want to run the backend locally, in the folder [Halls-BackEnd](https://github.com/SalmaFarghaly/Halls/Halls-BackEnd)
 you can  run the command 
-### `npm run watch ` 
+#### `npm run watch ` 
 and send requests from postman
 
 and if you want to run the frontend locally, in the folder [Halls-FrontEnd](https://github.com/SalmaFarghaly/Halls/Halls-FrontEnd/Halls-FrontEnd)
 you can  run command 
-### `npm start ` 
+#### `npm start ` 
 
 ## Running the tests
 In [Halls-BackEnd](https://github.com/SalmaFarghaly/Halls/Halls-BackEnd) folder 
 
-### prerequisite
+### Prerequisite
 to install mocha
-### `npm install mocha --save-dev `
+#### `npm install mocha --save-dev `
 
 ### Unit Testing
 you can run the unit-test cases by command
-### ` mocha unit-test `
+#### ` mocha unit-test `
 
-## End to end testing
+### End to end testing
 and can run the tests by command
-### ` npm run test `
+#### ` npm run test `
 
 ## Live demo
 
