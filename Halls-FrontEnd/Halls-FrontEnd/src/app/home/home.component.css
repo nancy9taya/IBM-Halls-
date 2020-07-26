@@ -1,0 +1,247 @@
+:root {
+    --container-bg-color:black;
+    --left-bg-color: #f5f5f5;
+    --left-button-hover-color: rgba(92, 92, 92, 0.3);;
+    --right-bg-color: rgba(230, 215, 215, 0.815);
+    --right-button-hover-color: rgba(92, 92, 92, 0.3);
+    --hover-width: 65%;
+    --other-width: 35%;
+    --speed: 1000ms;
+  }
+  
+  html, body {
+    padding:0;
+    margin:0;
+    font-family: Charcoal;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  .leftHeader{
+    font-size: 3rem;
+    color:#2C3C5B;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+  }
+  
+  .rightHeader {
+    font-size: 2.5rem;
+    font-family: Cambria;
+    color:black;
+    position: absolute;
+    left: 25%;
+    top: 15%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .About{
+    font-size:1.2rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    top:35%;
+    left:14%;
+    position: relative;
+    columns: #000000;;
+  
+  }
+  span{
+    color:#2C3C5B;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-family:  Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .left p{
+    color:#2C3C5B
+  }  
+  .button{
+    display: block;
+    position: absolute;
+    left: 70%;
+    top: 65%;
+    height: 2.5rem;
+    padding-top: 1.3rem;
+    width: 15rem;
+    text-align: center;
+    color:black;
+    border: #fff solid 0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform: translateX(-50%);
+    border-radius: 20px;
+  }
+
+  .leftBtn{
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 65%;
+    height: 3.5rem;
+    padding-top: 1rem;
+    width: 15rem;
+    text-align: center;
+    color:#2C3C5B;
+    border: #2C3C5B solid 0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    padding-bottom:20px;
+    margin-top: 25px;
+    text-transform: uppercase;
+  }
+  .split.left .leftBtn:hover {
+    background-color: var(--left-button-hover-color);
+    border-color: var(--left-button-hover-color);
+  }
+  
+  .split.right .button:hover {
+    background-color: var(--right-button-hover-color);
+    border-color: var(--right-button-hover-color);
+  }
+  
+  .container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--container-bg-color);
+  }
+  .split {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .split.left {
+    left:0;
+    background-color: #F5F5F5;
+    background-size: cover;
+  }  
+  .split.right {
+    right:0;
+    background-color: #0AC5A8;
+    background-size: cover;
+  }
+  .split.left, .split.right, .split.right:before, .split.left:before {
+    transition: var(--speed) all ease-in-out;
+  }
+  
+  .hover-left .left {
+    width: var(--hover-width);
+  }
+  
+  .hover-left .right {
+    width: var(--other-width);
+  }
+  
+  .hover-left .right:before {
+    z-index: 2;
+  }
+  
+  .hover-right .right {
+    width: var(--hover-width);
+  }
+  
+  .hover-right .left {
+    width: var(--other-width);
+  }
+  
+  .hover-right .left:before {
+    z-index: 2;
+  }
+
+  form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	/* text-align: center; */
+}
+
+
+.inputData {
+	background-color:rgb(221, 221, 221);
+	border: none;
+  padding: 12px 15px;
+  border-radius: 20px;
+	margin: 8px 0;
+  width: 25rem;
+    
+}
+.email{
+  margin-top: 100px;
+}
+
+.forgetPass {
+	color:#088673;
+	font-size: 14px;
+	text-decoration: none;
+  margin-top: 30px;
+}
+.createAccount{
+  color:#088673;
+	font-size: 20px;
+  margin-top: 130px;
+  font-weight: bold;
+  font-family: 'Calibri';
+
+}
+
+  
+  @media(max-width: 800px) {
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .button {
+      width: 12rem;
+    }
+    .inputData{
+        width:20rem;
+    }
+    .leftBtn{
+        width:12rem;
+    }
+  }
+  
+  @media(max-height: 700px) {
+    .button {
+      top: 70%;
+    }
+  }
+
+  .alert {
+    background: #f5f5f5;
+    padding: 7px;
+    font-size: .9em;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: 2s alertAnim forwards;
+    color: #2C3C5B;    
+}
+.invalidPassword{
+  color: red;
+  font-size: medium;
+  font-weight: bold;
+}
+@keyframes alertAnim {
+    from {
+        opacity:0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+
+
