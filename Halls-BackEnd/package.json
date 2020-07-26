@@ -49,13 +49,8 @@
     "chai-http": "^4.3.0"
   },
   "scripts": {
-<<<<<<< HEAD
-    "front": "nodemon cloudant",
-    "start": "node --trace-gc server.js",
-=======
     "front": "nodemon ser",
     "start": "node server.js",
->>>>>>> 02507b3074440d23ce6c7201de7ae4c88473c335
     "app": "nodemon cloudant",
     "watch": "nodemon server",
     "test": "mocha --timeout 720000",
