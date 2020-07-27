@@ -37,7 +37,7 @@ const hallSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:'User'
  },
- distibution:{
+ distribution:{
    type: Array
  }
 });
