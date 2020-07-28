@@ -20,8 +20,11 @@ const hallSchema = mongoose.Schema({
  benchesWidth:{
     type: Number
  },
+ noGaps:{
+   type: Number 
+ },
  columnsThenGap:{
-    type: Number
+    type: Array
  },
  gapwidth:{
     type: Number
@@ -34,7 +37,7 @@ const hallSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:'User'
  },
- distibution:{
+ distribution:{
    type: Array
  }
 });

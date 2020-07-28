@@ -3,9 +3,9 @@
 *@module middleware
 */
 
-const jwt  = require('jsonwebtoken')
-const User = require('../models/User')
-
+const jwt  = require('jsonwebtoken');
+const User = require('../models/User');
+var { db_users } = require('../cloudant');
 /**
 * chechAuth  check if token valid 
 *@function chechAuth
@@ -21,13 +21,19 @@ const auth = async (req,res,next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWTSECRET);
-        const user  = await User.findOne({ _id:decoded._id});
-        if(!user){
-            throw new Error()
-        }
-      //  returnDecode = jwt.decode(token);
-        req.user = user;
-        next();
+        let selector = {}
+        selector['_id'] = decoded._id;
+        db_users.find({ 'selector': selector }, (err, documents) => {
+        if (err) {
+            throw new Error();
+         }
+         else {
+            req.user = documents.docs[0];
+            next();
+         }
+         });
+         
+     
     } catch (error) {
         res.status(401).send({error:'Auth failed!'})
     }

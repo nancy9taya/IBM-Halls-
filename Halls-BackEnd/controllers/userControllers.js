@@ -27,8 +27,6 @@ const { v4: uuidv4 } = require('uuid');
 *@param {string}   req.body.email     you enter user email should be vaild and real
 *@param {string}   req.body.password  you put password  min 8 characters and max is 80
 *@param {string}   req.body.name      you enter user name min 3 letters and max 30
-*@param {date}     req.body.birthDate   you enter user birthdate min 1900
-*@param {boolean}  req.body.gender    you enter user gender true for female and false for male 
 */
 
 
@@ -73,16 +71,6 @@ function randGenerator() {
   rand.randNo = randomHash.generate(50);
 }
 
-/**
-* UserController edit his profile Without editing his email
-*@memberof module:controllers/userControllers
-*@param {object}   req.body
-*@param {string}   req.body.email  - edit the email
-*@param {string}   req.body.gender  - edit the gender
-*@param {string}   req.body.birthDate  - edit the birth date
-*@param {string}   req.body.country - edit the country
-*@param {string}   req.body.phone  - edit the Mobile number
-*/
 
 const smtpTransport = nodemailer.createTransport({
   service: 'gmail',
@@ -110,7 +98,7 @@ const smtpTransport = nodemailer.createTransport({
 *@param {token}   res.token   it returns token if user sigup successfully
  */
 exports.userSignup = async function (req, res, next) {
-  console.log("Came to Sign Up")
+
   const { error } = joiValidate(req.body)
   if (error){
     return res.status(400).send({ message: error.details[0].message });
@@ -322,7 +310,6 @@ exports.userLogout = (req, res, next) => {
 *@param {string}  res.message      erorr Mail exists/ or success
  */
 exports.userMailExist = function MailExist(req, res, next) {
-  console.log("IS mail exists")
   let selector = {}
   const mail=req.params.mail.toLowerCase();
   selector['email'] = mail;
