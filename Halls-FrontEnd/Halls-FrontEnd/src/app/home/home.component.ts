@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
       email:data.email,
       password:data.password
     }
+    console.log("log in request sent")
     this._auth.loginUser(user).subscribe(
       res=>{
         console.log(res)

@@ -7,8 +7,8 @@ import{Router} from '@angular/router'
 })
 export class AuthService {
   private loggedInStatus=JSON.parse(localStorage.getItem('loggedIn')||'false');
-  //public  baseUrl="http://localhost:3000"
-  public baseUrl="https://hallsback.eu-gb.mybluemix.net"
+  public  baseUrl="http://localhost:3000"
+  //public baseUrl="https://hallsback.eu-gb.mybluemix.net"
   private _loginUrl=this.baseUrl+"/user/login";
   private _signUpUrl=this.baseUrl+"/user/signup"
   private _verifyUrl=this.baseUrl+"/user/forgetPassword/";
@@ -20,6 +20,7 @@ export class AuthService {
   loginUser(user){
     console.log(user)
     // console.log(rememberMe)
+    localStorage.removeItem('token')
     return this.http.post<any>(this._loginUrl,user)
   }
   setLoggedIn(value:boolean){
@@ -32,12 +33,14 @@ export class AuthService {
 
   }
   SignUp(user){
+    localStorage.removeItem('token')
     return this.http.post<any>(this._signUpUrl,{
         name:user.name,
         email:user.email,
         password: user.password})
   }
   forgetPassword(user){
+    localStorage.removeItem('token')
     const url=this._verifyUrl+user.email;
     console.log(url)
     return this.http.get<any>(url)

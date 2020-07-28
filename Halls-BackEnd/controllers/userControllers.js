@@ -185,20 +185,27 @@ exports.userSignup = async function (req, res, next) {
  */
 
 exports.userLogin = (req, res, next) => {
+  console.log("get in Log in")
   let selector = {}
   let email=req.body.email.toLowerCase();
   selector['email'] = email;
+  console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
   db_users.find({ 'selector': selector }, (err, documents) => {
+    console.log(err)
+    console.log(documents)
     if (err) {
+
       console.log('Error occurred: ' + err.message, 'create()');
       return res.status(401).json({ message: 'failed' });
-    } else {
+    } else if(documents.docs.length>0) {
       console.log(documents.docs.length);
-      bcrypt.compare(req.body.password, documents.docs[0].password, function (err, result) {
+      console.log(req.body.password)
+      console.log(documents.docs[0].password)
+      bcrypt.compare(req.body.password, documents.docs[0].password, function (err,result) {
         if (err) {
           return res.status(401).json({ message: 'Auth failed' });
         }
-        if (result) {
+        else if (result) {
           const token = jwt.sign(
             {
               _id: documents.docs[0]._id
@@ -208,7 +215,14 @@ exports.userLogin = (req, res, next) => {
 
           return res.json({ token }).status(200);
         }
+        else{
+            return res.status(401).json({ message: 'Auth failed' });
+        }
       });
+    }
+    else{
+       return res.status(401).json({ message: 'Auth failed' });
+
     }
   });
 };
@@ -361,7 +375,8 @@ exports.userForgetPassword = async (req, res, next) => {
           console.log('Error occurred: ' + err.message, 'create()');
           return res.status(500).json({ message: 'faild' });
         } else {
-          const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
+          //const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
+          const link = "http://localhost:4200/#/resetpass?id=" + rand.randNo;
           mailOptions = {
             from: 'Do Not Reply ' + process.env.HALLEMAIL,
             to: documents.docs[0].email,//put user email
