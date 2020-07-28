@@ -13,4 +13,3 @@ module.exports = {
     db_histories: db_history,
     db_randhashes: db_randhash
 };
-

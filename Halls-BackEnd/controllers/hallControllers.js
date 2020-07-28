@@ -12,7 +12,8 @@ var { db_halls } = require('../cloudant');
 const { clearLine } = require('readline');
 const { v4: uuidv4 } = require('uuid');
 const decode_id = require('../middleware/getOID');
-var output = new Array();
+let Array2D = (r, c) => [...Array(r)].map(x => Array(c).fill(0));
+let out;
 /**
 * HallController  valdiation
 *@memberof module:controllers/hallControllers
@@ -108,28 +109,34 @@ function virticallDistanceWithBenche(chairLength, chairWidth, benchesWidth) {//t
 *@param {number}   count
 *@param {boolean}  ifBenches
 **/
-function algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, ifBenches) {
+function algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, ifBenches, columnsThenGap) {
+
     let i = 1; let j = 1;
     let first = true;
 
     while (j <= rows) {
         while (i <= columns) {
-            if (first == true && i ==1) {
+            if (first == true && i == 1) {
                 i = start;//start from the start chair
             }
-            else if (first == false && i==1) {
+            else if (first == false && i == 1) {
                 i = start + 1;
-             //start from the start + 1  chair to make sure that the distance is hypotenuse the pythagorean triangle
+                //start from the start + 1  chair to make sure that the distance is hypotenuse the pythagorean triangle
+            }
+            if (noGroups == 0) {
+                out[j][i] = true;
+            }
+            else {
+                if((i + columnsThenGap[noGroups - 1])< columns+1)
+                out[j][i + columnsThenGap[noGroups - 1]] = true;
             }
 
-            let spot = { num: i, status: true, row: j, group: noGroups + 1 };
-            output[count] = spot;
             let countUnvaildHorizontal = horizontalDistance(chairWidth);
             i = i + countUnvaildHorizontal;
             i++;
             count++;
-           
-            
+
+
         }
         first = !first;
         i = 1;
@@ -140,11 +147,11 @@ function algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroup
         else {
             countUnvaildVertical = virticallDistanceWithBenche(chairLength, chairWidth, benchesWidth)//to apply pythagorean theorem 
         }
-        if(countUnvaildVertical == 0){
-           j=j+2;
-           first = !first;
-        }else{
-        j = j + countUnvaildVertical;
+        if (countUnvaildVertical == 0) {
+            j = j + 2;
+            first = !first;
+        } else {
+            j = j + countUnvaildVertical;
         }
     }
     return count;
@@ -191,13 +198,14 @@ function cases(gap, benches) {
 *@param {number}   columnsThenGap
 *@param {number}   gapwidth
 **/
-function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, benchesWidth,noGaps, columnsThenGap, gapwidth) {
+function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, benchesWidth, noGaps, columnsThenGap, gapwidth) {
+    out = Array2D(rows + 1, columns + 1);
     if (caseNo == 1) {
         let noGroups = 0; // the hall as whole will be as one group
         let count = 0;
         let start = 1;
-        count = algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, false);
-        return output;
+        count = algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, false, columnsThenGap);
+        return out;
     }
     else if (caseNo == 2) {
         //if the gap is 100cm or bigger so we can distrubute each part in the hall as punch
@@ -208,10 +216,11 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             //because we can split it two groups that distance between them equal or bigger 100 cm so always start eqauls 1
             let start = 1
             while (c < noGroups) {
-                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, start, count, false);
+                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, start, count, false, columnsThenGap);
                 c++;
             }
-            return output;
+            return modify(out , rows , columnsThenGap , columns, noGaps)
+        
 
         } else {
             let start = startPostionIfGap(chairWidth, gapwidth);//here we get we should skip how may chairs to start distrubation
@@ -225,18 +234,19 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             let c = 0;
             let count = 0;
             while (c < noGroups) {
-                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, startPosition[c], count, false);
+                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, startPosition[c], count, false, columnsThenGap);
                 c++;
             }
         }
-        return output;
+         return  modify(out , rows , columnsThenGap , columns, noGaps)
+            
     }
     else if (caseNo == 3) {
         let noGroups = 0; // the hall as whole will be as one group
         let count = 0;
         let start = 1;
-        count = algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, true);
-        return output;
+        count = algorithm(rows, columns, chairLength, chairWidth, benchesWidth, noGroups, start, count, true, columnsThenGap);
+        return out;
     }
     else if (caseNo == 4) {
         //  if the gap is 100cm or bigger so we can distrubute each part in the hall as punch 
@@ -247,10 +257,11 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             //because we can split it two groups that distance between them equal or bigger 100 cm so always start eqauls 1
             let start = 1
             while (c < noGroups) {
-                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, start, count, true);
+                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, start, count, true, columnsThenGap);
                 c++;
             }
-            return output;
+            return  modify(out , rows , columnsThenGap , columns, noGaps)
+            
 
         } else {
             let start = startPostionIfGap(chairWidth, gapwidth);//here we get we should skip how may chairs to start distrubation
@@ -264,13 +275,53 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             let c = 0;
             let count = 0;
             while (c < noGroups) {
-                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, startPosition[c], count, true);
+                count = algorithm(rows, columnsThenGap[c], chairLength, chairWidth, benchesWidth, c, startPosition[c], count, true, columnsThenGap);
                 c++;
             }
         }
-        return output;
+        return  modify(out , rows , columnsThenGap , columns, noGaps)
+        
     }
 };
+/**
+* HallController  function to modify 2d array output to add gaps
+*@memberof module:controllers/hallControllers
+*@param {number}   rows
+*@param {number}   columns
+*@param {number}   noGaps
+*@param {number}   columnsThenGap
+**/
+function modify(out, rows, columnsThenGap, columns, noGaps) {
+
+    let m = Array2D(rows + 1, columns + 1 + noGaps);
+    let last = 0;
+    var mycol=0
+    var start =true;
+    // expand to have the correct amount or rows
+
+    for (let r = 0; r < rows + 1; r++) {
+                     
+            for (var c = 0; c < columns+1; c++) {
+                if(start ==true){
+                  mycol= c;
+                 start = false;
+                }
+                if(c == columnsThenGap[last]+1){
+                  mycol++;
+                  last++;
+                }
+                m[r][mycol]=out[r][c];
+                mycol++;
+            
+               
+            }
+            mycol=0;
+            start=true;
+            last = 0;
+                    
+    }
+   return m;
+}
 
 /**
 * HallController  
