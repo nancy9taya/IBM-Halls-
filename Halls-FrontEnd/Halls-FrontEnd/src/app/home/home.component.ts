@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public loggedIn:boolean=false;
   public token:string="";
   isValidPass:boolean=true; 
+  isValidMail:boolean=true;
   showPassword:boolean=false;
   
   constructor(private _auth:AuthService,private http:HttpClient,private appComponent:AppComponent,private fb:FormBuilder,private router:Router) { 
@@ -52,6 +53,9 @@ export class HomeComponent implements OnInit {
       if(err instanceof HttpErrorResponse){
         if(err.status===401){
           this.isValidPass=false;        
+        }
+        else if(err.status===402){
+          this.isValidMail=false;
         }
       }
     

@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { FormDataComponent } from './form-data/form-data.component'
 import {AuthService} from './auth.service'
-import {SidebarModule} from "ng-sidebar"
+import {DrawResultService} from './draw-result.service'
 import {MaterialModule} from './material/material.module'
 import {AuthGuard} from './auth.guard'
 import {TokenInterceptorService} from './token-interceptor.service';
@@ -32,7 +32,7 @@ import {HashLocationStrategy,LocationStrategy} from '@angular/common'
     FormDataComponent,
     ForgetPassComponent,
     ResetpassComponent,
-    ResultComponent
+    ResultComponent,
     // TestComponent
   ],
   imports: [
@@ -52,6 +52,7 @@ import {HashLocationStrategy,LocationStrategy} from '@angular/common'
   ],
   providers: [
     AuthService,
+    DrawResultService,
     AuthGuard,
     {
       provide:HTTP_INTERCEPTORS,
