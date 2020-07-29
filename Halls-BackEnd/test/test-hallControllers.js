@@ -10,7 +10,7 @@ describe("send Data",function(){
 
       const options = {
           method:'POST',
-          url:process.env.baseURL + '/user/signup',
+          url:process.env.baseURL + '/hall/sendData',
           headers: {
             'Authorization': process.env.token
           },
@@ -48,7 +48,7 @@ describe("get Data",function(){
 
       const options = {
           method:'POST',
-          url:process.env.baseURL + '/user/signup',
+          url:process.env.baseURL + '/hall/getData',
           headers: {
             'Authorization': process.env.token
           }
@@ -58,6 +58,7 @@ describe("get Data",function(){
       request(options, function( response, body) {
          if(body)
          {
+ 
           expect(body.body.Array);
           done();
           }
