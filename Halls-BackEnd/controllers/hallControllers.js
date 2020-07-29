@@ -375,7 +375,7 @@ exports.distributionAlgo = (req, res, next) => {
         noGaps:req.body.noGaps,
         columnsThenGap: req.body.columnsThenGap,
         gapwidth: req.body.gapwidth,
-        distibution: output_distribution
+        distribution: output_distribution
     });
 
     db_halls.insert(hall, (err, result) => {
@@ -405,7 +405,11 @@ exports.getData = (req, res, next) => {
       } else {
 
           //return last entered data
-        return res.status(200).json({ Array :documents.docs[documents.docs.length - 1].distibution,message:'Done' });
+       let size =0;
+       if(documents.docs.length >=1)
+        size= documents.docs.length - 1;
+        
+        return res.status(200).json({ Array :documents.docs[size]});
       }
     });
 

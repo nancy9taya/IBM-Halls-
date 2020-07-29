@@ -32,14 +32,31 @@ describe("send Data",function(){
       request(options, function( response, body) {
          if(body)
          {
-          expect(body.body.Array);
+   
+           expect(body.body.Array).to.be.a('Array');
+           expect(body.body.Array).to.deep.equal([
+            [
+              0, 0, 0, 0,
+              0, 0, 0, 0
+            ],
+            [
+              0,    true, 0, 0,
+              true, 0,    0, 0
+            ],
+            [
+              0, 0, 0, 0,
+              0, 0, 0, 0
+            ],
+            [
+              0,    true, 0, 0,
+              true, 0,    0, 0
+            ]
+          ]);
           done();
           }
       
       });
      });
-  
-  
 
 });
 
@@ -47,25 +64,21 @@ describe("get Data",function(){
     it('get Data Test#1', function(done) {
 
       const options = {
-          method:'POST',
-          url:process.env.baseURL + '/hall/getData',
+          method:'GET',
+          url:process.env.baseURL + '/hall/getData"',
           headers: {
             'Authorization': process.env.token
           }
-   
-  
         };
       request(options, function( response, body) {
          if(body)
          {
- 
-          expect(body.body.Array);
+          expect(body.body).to.be.a('object');
+
           done();
           }
       
       });
      });
-  
-  
 
 });

@@ -7,8 +7,8 @@ import{Router} from '@angular/router'
 })
 export class AuthService {
   private loggedInStatus=JSON.parse(localStorage.getItem('loggedIn')||'false');
-  public  baseUrl="http://localhost:3000"
-  //public baseUrl="https://hallsback.eu-gb.mybluemix.net"
+  //public  baseUrl="http://localhost:3000"
+  public baseUrl="https://hallsbe.eu-gb.mybluemix.net"
   private _loginUrl=this.baseUrl+"/user/login";
   private _signUpUrl=this.baseUrl+"/user/signup"
   private _verifyUrl=this.baseUrl+"/user/forgetPassword/";
