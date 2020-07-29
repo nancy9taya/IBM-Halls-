@@ -5,6 +5,7 @@ import {AuthService} from '../auth.service'
 import {Router}      from '@angular/router'
 import {numValidator} from './validators'
 import {AbstractControl} from '@angular/forms'
+import {DrawResultService} from '../draw-result.service'
 
 
 
@@ -18,14 +19,14 @@ export class FormDataComponent implements OnInit {
   public token:string;
   myForm:FormGroup;
   titleAlert:string="This field is required and should be a positive number";
-  gapsAlert:String="The sum of numbers should be equal to rows count and all numbers should be positive"
+  gapsAlert:string="The sum of numbers should be equal to rows count and all numbers should be positive"
   message:string="please enter a positive number";
   isBench:boolean=false;
   isGap:boolean=false;
   widBench:number;
-  numGap:number;
-  gapCols:String;
-  gapWid:number=0;
+  numGap:string;
+  gapCols:string;
+  gapWid:string="0";
   validBench:boolean=true;
   validGap:boolean=true;
   validColsGap:boolean=true;
@@ -33,7 +34,12 @@ export class FormDataComponent implements OnInit {
   rowsCnt:number;
   numGaps=[];
   constructor(private http:HttpClient,private fb:FormBuilder
-    ,public _authService:AuthService ,private router:Router) { }
+    ,public _authService:AuthService ,private router:Router,public _resultService:DrawResultService) {
+
+      //this._resultService.setOption('gapWidth',parseInt(this.gapWid));
+
+
+  }
 
   ngOnInit(): void {
     
@@ -70,15 +76,32 @@ export class FormDataComponent implements OnInit {
       benchesWidth:benchWid,
       isGap:parseInt(data.benchRadio),
       columnsThenGap:this.numGaps,
-      gapWidth:this.gapWid
+      gapwidth:parseInt(this.gapWid),
+      noGaps:parseInt(this.numGap)
     }
     console.log("formData")
     console.log(formData)
+    //this._resultService.setOption('distribution',res.Array);
+    //this._resultService.distribution=res.Array;
+    this._resultService.chairLength=parseInt(data.lenChair);
+    this._resultService.setOption('chairLength',parseInt(data.lenChair));
+    this._resultService.setOption('chairWidth',parseInt(data.widChair));
+    this._resultService.setOption('isBench',parseInt(data.benchRadio));
+    this._resultService.setOption('rows',parseInt(data.rowsCnt));
+    this._resultService.setOption('columns',parseInt(data.colsCnt));
+    this._resultService.setOption('isGap',parseInt(data.benchRadio));
+    this._resultService.setOption('columnsThenGap',this.numGaps);
+    this._resultService.setOption('gapWidth',parseInt(this.gapWid));
+    this._resultService.setOption('noGaps',parseInt(this.numGap));
+
+   
     this.http.post<any>(this._authService.baseUrl+"/hall/sendData",formData).subscribe(res=>{
-      if(res.message=="Done")
-      {
-        
+      if(res.Array){
+        this._resultService.setOption('distribution',res.Array);
+        this._resultService.distribution=res.Array;
+        console.log(this._resultService.getOption())
       }
+      this.router.navigate(['/result']);
 
     },err=>{
 
@@ -127,7 +150,7 @@ export class FormDataComponent implements OnInit {
       const num=this.numGap+1;
       // console.log(this.numGap)
       // console.log(gaps.length-1)
-      if(gaps.length-1==this.numGap)
+      if(gaps.length-1==parseInt(this.numGap))
       {
         console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         var sum=0;
@@ -159,7 +182,7 @@ export class FormDataComponent implements OnInit {
 
   }
   checkValueGap(){
-    if(this.numGap>=1){
+    if(parseInt(this.numGap)>=1){
       this.validGap=true;
       this.checkColsGap();
     }
@@ -169,7 +192,7 @@ export class FormDataComponent implements OnInit {
 
   }
   checkgapWid(){
-    if(this.gapWid>=1){
+    if(parseInt(this.gapWid)>=1){
       this.validGapWid=true;
     }
     else

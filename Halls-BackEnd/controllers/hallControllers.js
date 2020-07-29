@@ -280,7 +280,9 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
 *@param {object}  res      Express response object
 **/
 exports.distributionAlgo = (req, res, next) => {
+    console.log("Came to distribution")
     //first valdiate
+    console.log(req.body)
     const { error } = joiValidate(req.body)
     if (error)
         return res.status(400).send({ message: error.details[0].message });
@@ -350,7 +352,7 @@ exports.getData = (req, res, next) => {
         return res.status(401).json({ message: 'failed' });
       } else {
           //return last entered data
-        return res.status(200).json({ Array :documents.docs[documents.docs.length - 1].distibution });
+        return res.status(200).json({ Array :documents.docs[documents.docs.length - 1].distibution,message:'Done' });
       }
     });
 

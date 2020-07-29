@@ -209,7 +209,7 @@ exports.userLogin = (req, res, next) => {
       });
     }
     else{
-       return res.status(401).json({ message: 'Auth failed' });
+       return res.status(402).json({ message: 'Auth failed' });
 
     }
   });
