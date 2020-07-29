@@ -21,7 +21,8 @@ import {TokenInterceptorService} from './token-interceptor.service';
 import { ForgetPassComponent } from './forgetpass/forgetpass.component';
 import { ResetpassComponent } from './resetpass/resetpass.component';
 import { ResultComponent } from './result/result.component'
-import {HashLocationStrategy,LocationStrategy} from '@angular/common'
+import {HashLocationStrategy,LocationStrategy} from '@angular/common';
+import { GuideComponent } from './guide/guide.component'
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {HashLocationStrategy,LocationStrategy} from '@angular/common'
     ForgetPassComponent,
     ResetpassComponent,
     ResultComponent,
+    GuideComponent,
     // TestComponent
   ],
   imports: [

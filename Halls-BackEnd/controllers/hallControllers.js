@@ -403,6 +403,7 @@ exports.getData = (req, res, next) => {
       if (err) {
         return res.status(401).json({ message: 'failed' });
       } else {
+
           //return last entered data
        let size =0;
        if(documents.docs.length >=1)

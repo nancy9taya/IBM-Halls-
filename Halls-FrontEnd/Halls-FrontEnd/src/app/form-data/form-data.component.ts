@@ -32,6 +32,7 @@ export class FormDataComponent implements OnInit {
   validColsGap:boolean=true;
   validGapWid:boolean=true;
   rowsCnt:number;
+  colsCnt:number;
   numGaps=[];
   constructor(private http:HttpClient,private fb:FormBuilder
     ,public _authService:AuthService ,private router:Router,public _resultService:DrawResultService) {
@@ -74,7 +75,7 @@ export class FormDataComponent implements OnInit {
       chairWidth:parseInt(data.widChair),
       isBench:parseInt(data.benchRadio),
       benchesWidth:benchWid,
-      isGap:parseInt(data.benchRadio),
+      isGap:parseInt(data.gapRadio),
       columnsThenGap:this.numGaps,
       gapwidth:parseInt(this.gapWid),
       noGaps:parseInt(this.numGap)
@@ -89,7 +90,7 @@ export class FormDataComponent implements OnInit {
     this._resultService.setOption('isBench',parseInt(data.benchRadio));
     this._resultService.setOption('rows',parseInt(data.rowsCnt));
     this._resultService.setOption('columns',parseInt(data.colsCnt));
-    this._resultService.setOption('isGap',parseInt(data.benchRadio));
+    this._resultService.setOption('isGap',parseInt(data.gapRadio));
     this._resultService.setOption('columnsThenGap',this.numGaps);
     this._resultService.setOption('gapWidth',parseInt(this.gapWid));
     this._resultService.setOption('noGaps',parseInt(this.numGap));
@@ -97,6 +98,8 @@ export class FormDataComponent implements OnInit {
    
     this.http.post<any>(this._authService.baseUrl+"/hall/sendData",formData).subscribe(res=>{
       if(res.Array){
+        console.log("disttttttttttttttttttttttttttt")
+        console.log(res.Array)
         this._resultService.setOption('distribution',res.Array);
         this._resultService.distribution=res.Array;
         console.log(this._resultService.getOption())
@@ -167,7 +170,7 @@ export class FormDataComponent implements OnInit {
         }
         // console.log(sum)
         // console.log()
-        if(sum==this.rowsCnt)
+        if(sum==this.colsCnt)
           this.validColsGap=true;
         else
           this.validColsGap=false;
@@ -198,6 +201,13 @@ export class FormDataComponent implements OnInit {
     else
       this.validGapWid=false;
 
+  }
+  guide(){
+    console.log("route to guide inside form data component")
+    this.router.navigate(['/guide'])
+  }
+  formData(){
+    this.router.navigate(['/FormData'])
   }
   
 

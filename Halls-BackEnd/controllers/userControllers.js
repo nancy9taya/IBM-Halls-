@@ -345,8 +345,8 @@ exports.userForgetPassword = async (req, res, next) => {
         if (err) {
           return res.status(500).json({ message: 'faild' });
         } else {
-          //const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
-          const link = "http://localhost:4200/#/resetpass?id=" + rand.randNo;
+          const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
+          //const link = "http://localhost:4200/#/resetpass?id=" + rand.randNo;
           mailOptions = {
             from: 'Do Not Reply ' + process.env.HALLEMAIL,
             to: documents.docs[0].email,//put user email
