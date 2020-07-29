@@ -37,7 +37,7 @@ export class FormDataComponent implements OnInit {
   constructor(private http:HttpClient,private fb:FormBuilder
     ,public _authService:AuthService ,private router:Router,public _resultService:DrawResultService) {
 
-      //this._resultService.setOption('gapWidth',parseInt(this.gapWid));
+    
 
 
   }
@@ -57,7 +57,7 @@ export class FormDataComponent implements OnInit {
       isGapWidClicked:['']
 
     })
-    // this.myForm.valueChanges.subscribe(console.log);
+   
 
   }
     
@@ -82,8 +82,7 @@ export class FormDataComponent implements OnInit {
     }
     console.log("formData")
     console.log(formData)
-    //this._resultService.setOption('distribution',res.Array);
-    //this._resultService.distribution=res.Array;
+    
     this._resultService.chairLength=parseInt(data.lenChair);
     this._resultService.setOption('chairLength',parseInt(data.lenChair));
     this._resultService.setOption('chairWidth',parseInt(data.widChair));

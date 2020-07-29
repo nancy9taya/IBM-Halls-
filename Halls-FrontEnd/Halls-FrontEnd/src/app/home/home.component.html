@@ -4,7 +4,7 @@
         <!-- <img src="images/halls.png" alt="halls"> -->
         <form [formGroup]="rForm" (ngSubmit)="SignIn(rForm.value)">
         <h1 class="leftHeader">Sign In</h1>
-        <input class="inputData email" type="text" name="email" placeholder="Enter your email" formControlName="email">
+        <input class="inputData email" focus="focusInEmail($event)"type="text" name="email" placeholder="Enter your email" formControlName="email">
         <div class="alert" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].touched">
             {{titleAlert}}
         </div>

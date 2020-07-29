@@ -36,6 +36,10 @@ export class HomeComponent implements OnInit {
     console.log(event.detail);
     this.isValidPass=true;
   }
+  focusInEmail(event: FocusEvent) {
+    console.log(event.detail);
+    this.isValidMail=true;
+  }
 
   SignIn(data){
     const user={
