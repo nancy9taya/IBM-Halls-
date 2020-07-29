@@ -60,25 +60,3 @@ describe("send Data",function(){
 
 });
 
-describe("get Data",function(){
-    it('get Data Test#1', function(done) {
-
-      const options = {
-          method:'GET',
-          url:process.env.baseURL + '/hall/getData"',
-          headers: {
-            'Authorization': process.env.token
-          }
-        };
-      request(options, function( response, body) {
-         if(body)
-         {
-          expect(body.body).to.be.a('object');
-
-          done();
-          }
-      
-      });
-     });
-
-});
