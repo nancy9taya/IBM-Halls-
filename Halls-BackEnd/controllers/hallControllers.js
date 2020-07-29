@@ -227,7 +227,7 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             let startPosition = new Array();
             let k = 1;
             startPosition[0] = 1;
-            if (k < noGroups) {
+            while (k < noGroups) {
                 startPosition[k] = start + 1;
                 k++;
             }
@@ -268,7 +268,7 @@ function fixed_algorithims(caseNo, rows, columns, chairLength, chairWidth, bench
             let startPosition = new Array();
             let k = 1;
             startPosition[0] = 1;
-            if (k < noGroups) {
+            while (k < noGroups) {
                 startPosition[k] = start + 1;
                 k++;
             }
