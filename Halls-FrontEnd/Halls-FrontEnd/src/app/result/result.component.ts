@@ -76,5 +76,8 @@ export class ResultComponent implements OnInit {
   guide(){
     this.router.navigate(['/guide'])
   }
+  formData(){
+    this.router.navigate(['/FormData'])
+  }
 
 }

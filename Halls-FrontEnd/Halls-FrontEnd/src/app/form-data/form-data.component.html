@@ -75,7 +75,7 @@
          <br>
          <br>
 
-         <label>Is there a gap between columns?</label>
+         <label>Is there an aisle between columns?</label>
          <br>
 
          <mat-radio-group formControlName="gapRadio">
@@ -86,7 +86,7 @@
 
          <div *ngIf="gapExist.checked">
             <br>
-            <label for="">please enter the width of the gap in centimeters</label>
+            <label for="">Please enter the width of the aisle in centimeters</label>
             <mat-form-field>
                <input matInput (keyup)="checkgapWid()" placeholder="width of gap" [(ngModel)]="gapWid" formControlName="isGapWidClicked">
             </mat-form-field>
@@ -94,7 +94,7 @@
                {{titleAlert}}
             </div>
             <br>
-            <label for="">please enter the number of gaps</label>
+            <label for="">Please enter the number of aisles</label>
             <mat-form-field>
                <input matInput (keyup)="checkValueGap()" placeholder="number of gaps" [(ngModel)]="numGap" formControlName="isGapClicked">
             </mat-form-field>
