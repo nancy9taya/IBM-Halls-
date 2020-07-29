@@ -3,8 +3,9 @@
    <div class="topnav">
       <a (click)="_authService.logOut()">Logout</a>
       <a href>History</a>
-      <a href>Guide</a>
-      <a class="active" href="#home">Home</a>
+      <a (click)="guide()">Guide</a>
+      <a class="active" (click)="formData()">Form Data</a>
+      <a href>Home</a>
    </div>
 </header>
 
@@ -24,7 +25,7 @@
 
          <label for="" >Enter count of columns in the hall </label>
          <mat-form-field>
-            <input matInput placeholder={{message}} formControlName="colsCnt">
+            <input matInput placeholder={{message}} [(ngModel)]="colsCnt" formControlName="colsCnt">
          </mat-form-field>
          <div class="alert" *ngIf="!myForm.controls['colsCnt'].valid && myForm.controls['colsCnt'].touched">
             {{titleAlert}}
@@ -101,9 +102,9 @@
                {{titleAlert}}
             </div>
             <br>
-            <label for="">please enter the number of columns separated by commas</label>
+            <label for="">Columns of seats are divided by one or more aisles.Please Enter the number of seats in each row separated by an aisle</label>
             <mat-form-field>
-               <input matInput (keyup)="checkColsGap()" placeholder="eg:3,2,5 for rows =10 and gaps =2" [(ngModel)]="gapCols" formControlName="isGapColsClicked">
+               <input matInput (keyup)="checkColsGap()" placeholder="eg:3,2,5 for columns=10 and alises=2" [(ngModel)]="gapCols" formControlName="isGapColsClicked">
             </mat-form-field>
             <div class="alert" *ngIf="!validColsGap&& myForm.controls['isGapColsClicked'].touched">
                {{gapsAlert}}

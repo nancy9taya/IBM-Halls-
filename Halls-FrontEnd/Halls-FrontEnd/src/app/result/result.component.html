@@ -2,12 +2,49 @@
 <header>
 <div class="topnav">
     <a (click)="authService.logOut()">Logout</a>
-    <a href>History</a>
-    <a href>Guide</a>
-    <a class="active" href="#home">Home</a>
+    <a (click)="guide()" href>Guide</a>
+    <a>Home</a>
  </div>
-</header>
+</header> 
 
-<div>
+<!-- <div>
     {{data.gapWid}}
-</div>
+</div> -->
+
+  <h1 class="header">H a l l s<br> D i s t r i b u t i o n </h1>
+  <table id="t01">
+    <tr>
+      <td></td>
+
+      <th *ngFor="let item of columns">
+        {{item}}
+      </th>
+
+    </tr>
+
+    <tr *ngFor="let numberR of numbersRows">
+
+      <td>row {{numberR +1}}</td>
+
+      <th *ngFor="let numberC of numbersColumns;  let in = index">
+
+        <div *ngIf="gapsArray.includes(numberC)">
+      <td></td>
+      </div>
+      <div *ngIf="distribution[numberR+1 ][numberC+1 ] == 0 && !gapsArray.includes(numberC)">
+        <img src="../../assets/images/chair.svg" alt="chair" style="width:50px;height:50px;" class="filter-red" />
+      </div>
+      <div *ngIf="distribution[numberR+1 ][numberC+1 ] == true && !gapsArray.includes(numberC)">
+        <img src="../../assets/images/chair.svg" alt="chair" style="width:50px;height:50px;" class="filter-green" />
+      </div>
+
+      </th>
+
+    </tr>
+
+  </table>
+
+
+  
+
+<router-outlet></router-outlet>
