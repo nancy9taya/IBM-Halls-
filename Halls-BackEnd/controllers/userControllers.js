@@ -121,7 +121,7 @@ exports.userSignup = async function (req, res, next) {
       }
       smtpTransport.sendMail(mailOptions, async function (error, response) {
         if (error) {
-          console.log(error);
+      
           return res.status(500).send({ msg: 'Unable to send email' });
 
         } else {
@@ -146,7 +146,7 @@ exports.userSignup = async function (req, res, next) {
               );
               db_users.insert(user, (err, result) => {
                 if (err) {
-                  console.log('Error occurred: ' + err.message, 'create()');
+               
                   return res.status(500).json({ message: 'faild' });
                 } else {
                   return res.json({ token }).status(200);
@@ -173,22 +173,14 @@ exports.userSignup = async function (req, res, next) {
  */
 
 exports.userLogin = (req, res, next) => {
-  console.log("get in Log in")
+
   let selector = {}
   let email=req.body.email.toLowerCase();
   selector['email'] = email;
-  console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
   db_users.find({ 'selector': selector }, (err, documents) => {
-    console.log(err)
-    console.log(documents)
     if (err) {
-
-      console.log('Error occurred: ' + err.message, 'create()');
       return res.status(401).json({ message: 'failed' });
     } else if(documents.docs.length>0) {
-      console.log(documents.docs.length);
-      console.log(req.body.password)
-      console.log(documents.docs[0].password)
       bcrypt.compare(req.body.password, documents.docs[0].password, function (err,result) {
         if (err) {
           return res.status(401).json({ message: 'Auth failed' });
@@ -226,9 +218,7 @@ exports.userLogin = (req, res, next) => {
  */
 
 exports.userVerifyMail = (req, res, next) => {
-  console.log(req.protocol + ":/" + req.get('host'));
   if ((req.protocol + "://" + req.get('host')) == ("http://" + req.get('host'))) {
-    console.log("Domain is matched. Information is from Authentic email");
     let selector = {};
     selector['randNo'] = req.query.id;
     db_randhashes.find({ 'selector': selector }, (err, documents) => {
@@ -236,7 +226,6 @@ exports.userVerifyMail = (req, res, next) => {
         console.log('Error occurred: ' + err.message, 'create()');
         return res.status(401).json({ message: 'failed' });
       } else {
-        console.log(documents.docs.length);
         if (documents.docs.length < 1) {
           return res.status(404).json({ message: 'The random hash doesnot Exist' });
         }
@@ -250,7 +239,6 @@ exports.userVerifyMail = (req, res, next) => {
                 if (err) {
                   return res.status(404).json({ message: 'The User doesnot Exist' });
                 } else {
-                  console.log(document);
                   let item = {
                     _id: document._id,
                     _rev: document._rev,
@@ -313,14 +301,11 @@ exports.userMailExist = function MailExist(req, res, next) {
   let selector = {}
   const mail=req.params.mail.toLowerCase();
   selector['email'] = mail;
-  console.log(selector)
   db_users.find({ 'selector': selector }, (err, documents) => {
-    console.log(documents)
     if (err) {
       console.log('Error occurred: ' + err.message, 'create()');
       return res.status(401).json({ message: 'failed' });
     } else {
-      console.log(documents.docs.length);
       if (documents.docs.length > 0) {
         return res.status(409).json({ message: 'Mail exists' });
       }
@@ -356,10 +341,8 @@ exports.userForgetPassword = async (req, res, next) => {
       const rand = new RandHash;
       rand.randNo = randomHash.generate(50);
       rand.userId = documents.docs[0]._id;
-      console.log(rand)
       db_randhashes.insert(rand, (err, result) => {
         if (err) {
-          console.log('Error occurred: ' + err.message, 'create()');
           return res.status(500).json({ message: 'faild' });
         } else {
           //const link = "https://hallsfe.eu-gb.cf.appdomain.cloud/#/resetpass?id=" + rand.randNo;
@@ -370,7 +353,6 @@ exports.userForgetPassword = async (req, res, next) => {
             subject: "Reset your password",
             html: "Hello.<br>No need to worry, you can reset your Halls password by clicking the link below:<br><a href=" + link + ">Reset password</a><br1>   Your username is:" + documents.docs[0]._id + "</br1> </br2>  If you didn't request a password reset, feel free to delete this email</br2>"
           }
-          console.log(mailOptions)
           smtpTransport.sendMail(mailOptions, function (error, response) {
             if (error) {
               return res.status(500).send({ msg: 'Unable to send Email' });
@@ -400,17 +382,14 @@ exports.userForgetPassword = async (req, res, next) => {
  */
 
 exports.userResetPassword = (req, res, next) => {
-  console.log(req.protocol + ":/" + req.get('host'));
+
   if ((req.protocol + "://" + req.get('host')) == ("http://" + req.get('host'))) {
-    console.log("Domain is matched. Information is from Authentic email");
     let selector = {};
     selector['randNo'] = req.query.id;
     db_randhashes.find({ 'selector': selector }, (err, documents) => {
       if (err) {
-        console.log('Error occurred: ' + err.message, 'create()');
         return res.status(401).json({ message: 'failed' });
       } else {
-        console.log(documents.docs.length);
         if (documents.docs.length < 1) {
           return res.status(404).json({ message: 'The random hash doesnot Exist' });
         }
@@ -434,7 +413,7 @@ exports.userResetPassword = (req, res, next) => {
                       if (err) {
                         return res.status(404).json({ message: 'The User doesnot Exist' });
                       } else {
-                        console.log(document);
+
                         let item = {
                           _id: document._id,
                           _rev: document._rev,
@@ -450,7 +429,7 @@ exports.userResetPassword = (req, res, next) => {
                         item["password"] = hash;
                         db_users.insert(item, (err, result) => {
                           if (err) {
-                            console.log('Error occurred: ' + err.message, 'create()');
+                
                             return res.status(404).json({ message: 'failed' });
                           } else {
                             mailOptions = {
@@ -459,10 +438,10 @@ exports.userResetPassword = (req, res, next) => {
                               subject: "Confirm Reset Password",
                               html: "Hello.<br>You just have changed your password <br>"
                             }
-                            console.log(mailOptions);
+                           
                             smtpTransport.sendMail(mailOptions, function (error, response) {
                               if (error) {
-                                console.log(error);
+                             
                                 return res.status(500).send({ msg: 'Unable to send Email' });
                               }
                               else {

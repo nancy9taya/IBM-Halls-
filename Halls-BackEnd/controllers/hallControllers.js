@@ -373,13 +373,14 @@ exports.distributionAlgo = (req, res, next) => {
         noGaps:req.body.noGaps,
         columnsThenGap: req.body.columnsThenGap,
         gapwidth: req.body.gapwidth,
-        distibution: output_distribution
+        distribution: output_distribution
     });
 
     db_halls.insert(hall, (err, result) => {
         if (err) {
             return res.status(500).json({ message: 'faild' });
         } else {
+            console.log(output_distribution)
             return res.status(200).json({ Array :output_distribution  });
         }
     });
@@ -401,7 +402,11 @@ exports.getData = (req, res, next) => {
         return res.status(401).json({ message: 'failed' });
       } else {
           //return last entered data
-        return res.status(200).json({ Array :documents.docs[documents.docs.length - 1].distibution });
+       let size =0;
+       if(documents.docs.length >=1)
+        size= documents.docs.length - 1;
+        
+        return res.status(200).json({ Array :documents.docs[size]});
       }
     });
 
