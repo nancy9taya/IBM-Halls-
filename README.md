@@ -39,8 +39,9 @@ It's imperative that learning in universities, also the films in cinemas can con
 ![roadmap](https://github.com/SalmaFarghaly/Halls/blob/master/roadmap.jpg)
 
 ## Getting started
+Here you Can find the link of the app: https://hallsfe.eu-gb.mybluemix.net/#/
 
-Here if you want to run the backend locally, in the folder [Halls-BackEnd](https://github.com/SalmaFarghaly/Halls/Halls-BackEnd)
+If you want to run the backend locally, in the folder [Halls-BackEnd](https://github.com/SalmaFarghaly/Halls/Halls-BackEnd)
 you can  run the command 
 #### `npm run watch ` 
 and send requests from postman
@@ -65,7 +66,7 @@ and can run the tests by command
 #### ` npm run test `
 
 ## Live demo
-![appVideo](https://github.com/SalmaFarghaly/Halls/blob/master/appVideo.mp4)
+
 
 ## Built with
 * [IBM cloudant](https://cloud.ibm.com/catalog?search=cloudant#search_results)
