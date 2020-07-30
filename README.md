@@ -65,11 +65,12 @@ and can run the tests by command
 #### ` npm run test `
 
 ## Live demo
+![appVideo](https://github.com/SalmaFarghaly/Halls/blob/master/appVideo.mp4)
 
 ## Built with
 * [IBM cloudant](https://cloud.ibm.com/catalog?search=cloudant#search_results)
 * [IBM cloud Foundary](https://cloud.ibm.com/catalog?search=cloud%20foundry#search_results)
-* [DevOps](https://cloud.ibm.com/devops/toolchains)
+* [DevOps](https://cloud.ibm.com/devops/toolchains)[toolchain:Delivery pipline]
 
 ## Contributing
 
