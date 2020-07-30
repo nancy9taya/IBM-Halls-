@@ -66,7 +66,7 @@ and can run the tests by command
 #### ` npm run test `
 
 ## Live demo
-![watch](https://youtu.be/NsgI_1lHkoQ)
+[![watch](https://img.youtube.com/vi/NsgI_1lHkoQ/0.jpg)](https://www.youtube.com/watch?v=NsgI_1lHkoQ&feature=youtu.be)
 
 ## Built with
 * [IBM cloudant](https://cloud.ibm.com/catalog?search=cloudant#search_results)
