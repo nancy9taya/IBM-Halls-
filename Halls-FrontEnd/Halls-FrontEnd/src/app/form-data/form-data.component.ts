@@ -24,7 +24,7 @@ export class FormDataComponent implements OnInit {
   isBench:boolean=false;
   isGap:boolean=false;
   widBench:number;
-  numGap:string;
+  numGap:string="0";
   gapCols:string;
   gapWid:string="0";
   validBench:boolean=true;
@@ -65,9 +65,13 @@ export class FormDataComponent implements OnInit {
     console.log("data")
     console.log(data)
     let benchWid=0;
+    // let numGap=0;
     if(data.isBenchClicked!==""){
       benchWid=parseInt(data.isBenchClicked)
     }
+    // if(data.isGapClicked!==""){
+    //   numGap=parseInt(data.isGapClicked);
+    // }
     const formData={
       rows:parseInt(data.rowsCnt),
       columns:parseInt(data.colsCnt),
