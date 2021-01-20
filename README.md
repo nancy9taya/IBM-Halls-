@@ -28,10 +28,6 @@ We try to make a solution to bring life back to these places by applying social 
 ### The idea
 It's imperative that learning in universities, also the films in cinemas can continue by coping with the COVID-19 situation. providing a set of open-source tools, backed by IBM Cloud foundary and IBM cloudant also DevOps tool, will enable people to go to places whatever they want with safe social distancing.
 
-
-## Demo video
-[![watch](https://img.youtube.com/vi/GYDUYzGLDRo/3.jpg)](https://youtu.be/GYDUYzGLDRo)
-
 ## The architecture
 ![architecture](https://github.com/SalmaFarghaly/Halls/blob/master/architecture.jpg)
 ## Long description
